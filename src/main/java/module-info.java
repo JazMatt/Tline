@@ -8,6 +8,9 @@ module org.example.tline {
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires com.sun.jna;
+    requires com.sun.jna.platform;
+    requires java.desktop;
 
     opens org.example.tline to javafx.fxml;
     exports org.example.tline;
