@@ -6,17 +6,14 @@ import com.sun.jna.ptr.IntByReference;
 
 import java.util.TreeMap;
 
-public class GetCurrentApp implements Runnable {
+public class StartTracking implements Runnable {
 
-    private UpdateDataBase updateDB;
-    private TreeMap<String, String[]> usageData;
+    private DataBase dataBase;
+    volatile private TreeMap<String, String[]> usageData = new TreeMap<>();
     @Override
     public void run() {
 
-        updateDB = new UpdateDataBase();
-        usageData = updateDB.getUsageData();
-
-        System.out.println(usageData);
+        dataBase = new DataBase();
         int secs = 0;
 
         while (true) {
@@ -40,31 +37,26 @@ public class GetCurrentApp implements Runnable {
             String exePathStr = Native.toString(exePath);
 //          System.out.println("Path: " + exePathStr);  // "C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2023.3.2\bin\idea64.exe"
 
-            String exeName = exePathStr.substring(exePathStr.lastIndexOf("\\") + 1);
+            String exeName = exePathStr.substring(exePathStr.lastIndexOf("\\") + 1).toLowerCase();
 
             // Update usageData (add 1 second)
-            if (usageData.keySet().contains(exeName)) {
+            if (usageData.containsKey(exeName)) {
                 int time = Integer.parseInt(usageData.get(exeName)[0]);
-                usageData.put(exeName, new String[]{null, String.valueOf(time + 1)});
+                usageData.put(exeName, new String[]{String.valueOf(time + 1), null});
             } else {
-                usageData.put(exeName, new String[]{null, String.valueOf(1)});
+                usageData.put(exeName, new String[]{String.valueOf(1), null});
             }
 
             // Upload dataUsage to database every minute
             if (secs >= 5) {
-                System.out.println("DATABASE UPDATE\n" + usageData);
-                updateDB.uploadDataToDB(usageData);
+                System.out.println(usageData);
+                TreeMap<String, String[]> usageDataCopy = new TreeMap<>(usageData);
+                dataBase.uploadDataToDB(usageDataCopy);
                 usageData.clear();
+                usageData = new TreeMap<>();
                 secs = 0;
             }
 
-                // Format exeName
-//                String formatName = exeName.replace(".exe", "").toLowerCase();
-//                char firstChar = Character.toUpperCase(formatName.charAt(0));
-//                formatName = firstChar + formatName.substring(1);
-//
-//                if (formatName.endsWith("64") || formatName.endsWith("32")) {
-//                    formatName = formatName.substring(0, formatName.length() - 2);
         }
     }
 }
