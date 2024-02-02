@@ -9,7 +9,7 @@ import java.util.TreeMap;
 public class StartTracking implements Runnable {
 
     private DataBase dataBase;
-    public static final int checkingFrequencySeconds = 2;
+    public static final int checkingFrequencySeconds = 1;
     private TreeMap<String, String[]> usageData = new TreeMap<>();
     @Override
     public void run() {
@@ -42,7 +42,7 @@ public class StartTracking implements Runnable {
 
             String exeName = exePathStr.substring(exePathStr.lastIndexOf("\\") + 1).toLowerCase();
 
-            // Update usageData (add 1 second)
+            // Update usageData (add time)
             if (usageData.containsKey(exeName)) {
                 int time = Integer.parseInt(usageData.get(exeName)[0]);
                 usageData.put(exeName, new String[]{String.valueOf(time + checkingFrequencySeconds), null});
@@ -58,7 +58,6 @@ public class StartTracking implements Runnable {
 
             // Upload dataUsage to database every minute
             if (secs1 >= 60) {
-                System.out.println(usageData);
                 TreeMap<String, String[]> usageDataCopy = new TreeMap<>(usageData);
                 dataBase.uploadDataToDB(usageDataCopy);
                 usageData = new TreeMap<>();
