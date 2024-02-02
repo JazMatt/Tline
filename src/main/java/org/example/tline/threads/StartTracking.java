@@ -9,18 +9,21 @@ import java.util.TreeMap;
 public class StartTracking implements Runnable {
 
     private DataBase dataBase;
-    volatile private TreeMap<String, String[]> usageData = new TreeMap<>();
+    public static final int checkingFrequencySeconds = 2;
+    private TreeMap<String, String[]> usageData = new TreeMap<>();
     @Override
     public void run() {
 
+        int secs1 = 0;
+        int secs10 = 0;
         dataBase = new DataBase();
-        int secs = 0;
 
         while (true) {
 
             try {
-                Thread.sleep(1000);
-                secs ++;
+                Thread.sleep(checkingFrequencySeconds * 1000);
+                secs1 += checkingFrequencySeconds;
+                secs10 += checkingFrequencySeconds;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -42,19 +45,24 @@ public class StartTracking implements Runnable {
             // Update usageData (add 1 second)
             if (usageData.containsKey(exeName)) {
                 int time = Integer.parseInt(usageData.get(exeName)[0]);
-                usageData.put(exeName, new String[]{String.valueOf(time + 1), null});
+                usageData.put(exeName, new String[]{String.valueOf(time + checkingFrequencySeconds), null});
             } else {
-                usageData.put(exeName, new String[]{String.valueOf(1), null});
+                usageData.put(exeName, new String[]{String.valueOf(2), null});
+            }
+
+            // Refresh dataBase every 10 minutes to check if new file shouldn't be created (because of the next day)
+            if (secs10 >= 600) {
+                dataBase = new DataBase();
+                secs10 = 0;
             }
 
             // Upload dataUsage to database every minute
-            if (secs >= 5) {
+            if (secs1 >= 60) {
                 System.out.println(usageData);
                 TreeMap<String, String[]> usageDataCopy = new TreeMap<>(usageData);
                 dataBase.uploadDataToDB(usageDataCopy);
-                usageData.clear();
                 usageData = new TreeMap<>();
-                secs = 0;
+                secs1 = 0;
             }
 
         }

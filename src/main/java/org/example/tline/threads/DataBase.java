@@ -1,33 +1,41 @@
 package org.example.tline.threads;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
 public class DataBase {
 
-    volatile private TreeMap<String, String[]> usageData;
-    private static final String DB_PATH = "jdbc:sqlite:resources\\databases\\time-data.db";
+    private TreeMap<String, String[]> usageData;
+    private final String dbPath;
 
     public DataBase() {
 
-        try (Connection connection = DriverManager.getConnection(DB_PATH)) {
-            Statement statement = connection.createStatement();
+        String localDate = LocalDate.now().toString();
+        dbPath = "jdbc:sqlite:resources\\databases\\time-data-" + localDate + ".db";
+
+        createTableIfNeeded();
+    }
+
+    private void createTableIfNeeded() {
+        try (Connection connection = DriverManager.getConnection(dbPath);
+            Statement statement = connection.createStatement()) {
             statement.execute(
                     "CREATE TABLE IF NOT EXISTS apps_time " +
                             "(exe_name TEXT, " +
                             "format_name TEXT, " +
                             "usage_time INTEGER);");
-
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error creating table: " + e.getMessage());
         }
     }
 
     void uploadDataToDB(TreeMap<String, String[]> map) {
 
-        usageData = map;
+        usageData = new TreeMap<>(map);
 
         for (var exeName : map.keySet()) {
 
@@ -37,7 +45,7 @@ public class DataBase {
             exeName = formatResults[1];
 
             int totalTime;
-            try (Connection connection = DriverManager.getConnection(DB_PATH)) {
+            try (Connection connection = DriverManager.getConnection(dbPath)) {
                 Statement statement = connection.createStatement();
                 int timeFromMap = Integer.parseInt(usageData.get(exeName)[0]); // Get time from current session
 
@@ -45,7 +53,6 @@ public class DataBase {
                 try {
                     ResultSet record = statement.executeQuery("SELECT * FROM apps_time WHERE exe_name = '" + exeName + "';");
                     int timeFromDB = record.getInt(3);
-                    System.out.println(exeName + " time: " + timeFromMap);
                     totalTime = timeFromDB + timeFromMap;
                     statement.execute("UPDATE apps_time SET usage_time = " + totalTime +
                             " WHERE exe_name = '" + exeName + "';");
@@ -66,7 +73,8 @@ public class DataBase {
 
         ArrayList<String> systemNames = new ArrayList<>(List.of(
                 "explorer.exe", "searchapp.exe", "shellexperiencehost.exe",
-                "startmenuexperiencehost.exe"));
+                "startmenuexperiencehost.exe, applicationframehost.exe",
+                "applicationframehost.exe"));
 
         String formatName = name;
 
@@ -81,13 +89,18 @@ public class DataBase {
         } else {
             // Remove ".exe"
             if (name.contains(".exe")) formatName = formatName.replace(".exe", "");
-            // Capitalize
-            char firstChar = Character.toUpperCase(formatName.charAt(0));
-            formatName = firstChar + formatName.substring(1);
             // Remove "64" and "32" from the end of name
             if (formatName.endsWith("64") || formatName.endsWith("32")) {
                 formatName = formatName.substring(0, formatName.length() - 2);
             }
+            // Capitalize
+            String capitalized = "";
+            for (var e : Arrays.stream(formatName.split("\\s+")).toArray(String[]::new)) {
+                System.out.println("e: " + e);
+                char firstChar = Character.toUpperCase(e.charAt(0));
+                capitalized = capitalized.concat(firstChar + e.substring(1) + " ");
+            }
+            formatName = capitalized;
         }
 
         return new String[] {formatName, name};
