@@ -13,34 +13,36 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            stylesheets="@../../../fontstyle.css">
+<BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../../../style.css" fx:controller="org.example.tline.gui.Controller1">
 <!--    <fx:define>-->
-<!--        <Font fx:id="logoFont" name="OdibeeSans-Regular.ttf" size="16" />-->
-<!--        <Font fx:id="robotoFont" name="RobotoCondensed-VariableFont_wght.ttf" size="16" />-->
+<!--        <Font fx:id="logoFont" name="OdibeeSans.ttf" size="16" />-->
+<!--        <Font fx:id="robotoFont" name="RobotoFont.ttf" size="16" />-->
 <!--    </fx:define>-->
    <left>
-       <VBox alignment="CENTER" prefHeight="401.0" prefWidth="130.0" BorderPane.alignment="CENTER">
-           <GridPane prefHeight="442.0" prefWidth="109.0">
-               <columnConstraints>
-                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-               </columnConstraints>
-               <rowConstraints>
-                   <RowConstraints maxHeight="358.0411923862895" minHeight="10.0" prefHeight="26.70103994846528"
-                                   vgrow="SOMETIMES"/>
-                   <RowConstraints maxHeight="358.0411923862895" minHeight="10.0" prefHeight="316.6804170118965"
-                                   vgrow="SOMETIMES"/>
-                   <RowConstraints maxHeight="195.731988284727" minHeight="0.0" prefHeight="59.31959421306033"
-                                   vgrow="SOMETIMES"/>
-               </rowConstraints>
-               <Label alignment="CENTER" contentDisplay="CENTER" text="tline" GridPane.rowIndex="2"/>
-               <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1"/>
-               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0" text="Total"
-                      textAlignment="CENTER">
-               </Label>
-           </GridPane>
-       </VBox>
+<!--       <VBox alignment="CENTER" prefHeight="401.0" prefWidth="130.0" BorderPane.alignment="CENTER">-->
+       <GridPane prefHeight="440.0" prefWidth="110.0" styleClass="sideBar">
+           <columnConstraints>
+               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="150.0" prefWidth="100.0"/>
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints maxHeight="360" minHeight="10.0" prefHeight="25"
+                               vgrow="SOMETIMES"/>
+               <RowConstraints maxHeight="Infinity" minHeight="100" prefHeight="-Infinity"
+                               vgrow="ALWAYS"/>
+               <RowConstraints maxHeight="195" minHeight="0.0" prefHeight="60"
+                               vgrow="SOMETIMES"/>
+           </rowConstraints>
+           <Label alignment="CENTER" contentDisplay="CENTER" text="tline" GridPane.rowIndex="2" styleClass="logo"/>
+           <VBox prefHeight="Infinity" prefWidth="300.0" GridPane.rowIndex="1" fx:id="vBox" alignment="TOP_CENTER">
+
+           </VBox>
+           <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0" text="Total"
+                  onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMouseClicked="#onMouseClicked"
+                  textAlignment="CENTER" styleClass="dateLabel" GridPane.rowIndex="0"/>
+       </GridPane>
+<!--       </VBox>-->
    </left>
    <center>
       <BarChart legendSide="LEFT" BorderPane.alignment="CENTER">

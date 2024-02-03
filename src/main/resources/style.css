@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Odibee Sans';
+    src: url('fonts/OdibeeSans.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto Condensed Thin';
+    src: url('fonts/RobotoFont.ttf');
+}
+
+.logo {
+    -fx-font-family: "Odibee Sans";
+    -fx-font-size: 46px;
+    -fx-text-fill: white;
+}
+
+.sideBar {
+    -fx-background-color: #222222; /* Dark background color */
+    -fx-text-fill: white;
+}
+
+
+
+.dateLabel {
+    -fx-font-family: "Roboto Condensed Thin";
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+    -fx-padding: 5px;
+    -fx-background-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.dateLabel.hovered {
+    -fx-font-size: 16px;
+    -fx-text-fill: blue;
+}
+
+.dateLabel.clicked {
+    -fx-text-fill: red;
+}

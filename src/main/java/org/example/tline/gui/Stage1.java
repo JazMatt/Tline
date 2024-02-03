@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Stage1 extends Application {
     @Override
@@ -13,7 +14,9 @@ public class Stage1 extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/tline/tlineGUI.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            scene.getStylesheets().add(getClass().getResource("/fontstyle.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+            stage.setMinWidth(500);
+            stage.setMinHeight(300);
             stage.setTitle("Tline");
             stage.setScene(scene);
             stage.show();
