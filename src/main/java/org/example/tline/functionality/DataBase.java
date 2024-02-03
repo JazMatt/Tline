@@ -1,4 +1,4 @@
-package org.example.tline.threads;
+package org.example.tline.functionality;
 
 import java.sql.*;
 import java.time.LocalDate;

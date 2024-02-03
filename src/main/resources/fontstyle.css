@@ -1,0 +1,7 @@
+@font-face {
+src: url(“fonts/OdibeeSans-Regular.ttf”);
+}
+
+.Label {
+-fx-font-family: 'Odibee Sans';
+}

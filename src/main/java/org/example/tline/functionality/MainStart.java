@@ -1,8 +1,6 @@
-package org.example.tline;
+package org.example.tline.functionality;
 
-import org.example.tline.threads.StartTracking;
-
-public class Main {
+public class MainStart {
 
     public static void main(String[] args) {
 

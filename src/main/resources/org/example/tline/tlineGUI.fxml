@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../../../fontstyle.css">
+<!--    <fx:define>-->
+<!--        <Font fx:id="logoFont" name="OdibeeSans-Regular.ttf" size="16" />-->
+<!--        <Font fx:id="robotoFont" name="RobotoCondensed-VariableFont_wght.ttf" size="16" />-->
+<!--    </fx:define>-->
+   <left>
+       <VBox alignment="CENTER" prefHeight="401.0" prefWidth="130.0" BorderPane.alignment="CENTER">
+           <GridPane prefHeight="442.0" prefWidth="109.0">
+               <columnConstraints>
+                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+               </columnConstraints>
+               <rowConstraints>
+                   <RowConstraints maxHeight="358.0411923862895" minHeight="10.0" prefHeight="26.70103994846528"
+                                   vgrow="SOMETIMES"/>
+                   <RowConstraints maxHeight="358.0411923862895" minHeight="10.0" prefHeight="316.6804170118965"
+                                   vgrow="SOMETIMES"/>
+                   <RowConstraints maxHeight="195.731988284727" minHeight="0.0" prefHeight="59.31959421306033"
+                                   vgrow="SOMETIMES"/>
+               </rowConstraints>
+               <Label alignment="CENTER" contentDisplay="CENTER" text="tline" GridPane.rowIndex="2"/>
+               <ListView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1"/>
+               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0" text="Total"
+                      textAlignment="CENTER">
+               </Label>
+           </GridPane>
+       </VBox>
+   </left>
+   <center>
+      <BarChart legendSide="LEFT" BorderPane.alignment="CENTER">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+   </center>
+</BorderPane>

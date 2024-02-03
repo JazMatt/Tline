@@ -15,7 +15,8 @@ module org.example.tline {
     requires java.sql;
 
     opens org.example.tline to javafx.fxml;
-    exports org.example.tline;
-    exports org.example.tline.threads;
-    opens org.example.tline.threads to javafx.fxml;
+    exports org.example.tline.functionality;
+    opens org.example.tline.functionality to javafx.fxml;
+    exports org.example.tline.gui;
+    opens org.example.tline.gui to javafx.fxml;
 }

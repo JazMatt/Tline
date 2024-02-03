@@ -1,4 +1,4 @@
-package org.example.tline.threads;
+package org.example.tline.functionality;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.*;
