@@ -12,8 +12,9 @@
 .dateLabel, .dateClicked, totalLabel {
     -fx-font-family: "Roboto Condensed Thin";
     -fx-font-size: 13px;
+    -fx-font-weight: bold;
     -fx-border-width: 1px;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-border-width: 3 3 3 3 ;
     -fx-padding: 2px 25px 2px 25px;
@@ -31,12 +32,24 @@
     -fx-background-color: white;
 }
 
+.dateHovered {
+    -fx-border-radius: 10px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px
+}
+
 .totalLabel {
-    -fx-padding: 1px 15px 1px 15px;
-    -fx-background-insets: 1px 1px 1px 1px;
+    -fx-padding: 0 18px 1px 15px;
+    -fx-background-insets: 0 7px 0 1px;
+    -fx-border-radius: 10px;
+    -fx-border-insets: 0 7px 0 1px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
 }
 /* Common styles for scroll bar */
 .scroll-bar {
+    -fx-background-radius: 10px;
     -fx-background-color: #2A2A2A;
 }
 
@@ -75,12 +88,26 @@
     -fx-font-family: "Odibee Sans";
     -fx-font-size: 46px;
     -fx-text-fill: white;
+    -fx-background-color: #252525;
+    -fx-background-radius: 10px;
+    -fx-padding: 0px 30px;
+    -fx-background-insets: 0px 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 0);
+    -fx-border-radius: 10px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
 }
 
 /* Style for sidebar */
-.sideBar {
+.sideBar, vBox {
     -fx-background-color: #2A2A2A;
     -fx-text-fill: white;
+}
+
+.vBox {
+    -fx-background-color: #2F2F2F;
+    -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 20, 0, 0, 0 );
+    -fx-padding: 5px 0;
 }
 
 /* Style for dark background */

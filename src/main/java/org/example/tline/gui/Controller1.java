@@ -24,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 
 
 public class Controller1 implements Initializable {
+    private int counter = 0;
 
     @FXML
     private VBox vBox; // VBox for labels (except the 'total' label)
@@ -42,7 +43,7 @@ public class Controller1 implements Initializable {
         total.getStyleClass().add("dateClicked");
 
         // Create scale transition for hover effect
-        scaleTransition = new ScaleTransition();
+        scaleTransition = new ScaleTransition(Duration.millis(100));
 
         // Add all files names from databases folder to array list
         String directoryPath = "resources/databases";
@@ -56,12 +57,11 @@ public class Controller1 implements Initializable {
                 String fileName = file.getName().replace("time-data-", "").replace(".db", "");
                 Label label = new Label(fileName);
 
-                label.getStyleClass().add("dateClicked");
+                label.getStyleClass().add("dateLabel");
                 label.setOnMouseEntered(event -> onMouseEntered(label));
-//                label.setOnMouseExited(event -> onMouseExited(label));
+                label.setOnMouseExited(event -> onMouseExited(label));
                 label.setOnMouseClicked(event -> onMouseClicked(label));
-//                label.setOnDragExited(event -> onMouseExited(label));
-                label.setContentDisplay(ContentDisplay.CENTER);
+                label.setContentDisplay(ContentDisplay.LEFT);
                 label.setTextAlignment(TextAlignment.LEFT);
 
                 vBox.getChildren().add(label);
@@ -71,18 +71,12 @@ public class Controller1 implements Initializable {
     }
 
     private void onMouseEntered(Label label) {
-//        scaleTransition.stop();
-//        scaleTransition.setFromX(1.0);
-//        scaleTransition.setFromY(1.0);
-//        scaleTransition.setToX(1.1);
-//        scaleTransition.setToY(1.1);
-//        scaleTransition.setNode(label);
-//        scaleTransition.play();
+        label.getStyleClass().add("dateHovered");
     }
 
     private void onMouseExited(Label label) {
-        // Reset scale animation for all labels
-//        resetScaleAnimation();
+        label.getStyleClass().remove("dateHovered");
+        label.getStyleClass().add("dateLabel");
     }
 
     private void onMouseClicked(Label label) {
@@ -92,11 +86,26 @@ public class Controller1 implements Initializable {
         for (Label currentLabel : labels) {
             currentLabel.getStyleClass().remove("dateClicked");
             currentLabel.getStyleClass().add("dateLabel");
+            currentLabel.setScaleX(1.0);
+            currentLabel.setScaleY(1.0);
         }
 
         // add style to clicked label
         label.getStyleClass().remove("dateLabel");
+        label.getStyleClass().remove("dateHovered");
         label.getStyleClass().add("dateClicked");
+
+        scaleTransition.stop();
+        scaleTransition.setFromX(1.0);
+        scaleTransition.setFromY(1.0);
+        scaleTransition.setToX(1.15);
+        scaleTransition.setToY(1.15);
+        scaleTransition.setFromX(1.15);
+        scaleTransition.setFromY(1.15);
+        scaleTransition.setToX(1.1);
+        scaleTransition.setToY(1.1);
+        scaleTransition.setNode(label);
+        scaleTransition.play();
     }
 
 

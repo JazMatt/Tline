@@ -4,56 +4,55 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.geometry.Insets?>
 
-<BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.tline.gui.Controller1" styleClass="darkBG"
-            stylesheets="@../../../style.css">
+<BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="darkBG"
+            stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.tline.gui.Controller1">
 
     <left>
-        <GridPane prefHeight="440.0" prefWidth="110.0" styleClass="sideBar" style="-fx-padding: 5px 0 0 0">
+        <GridPane prefHeight="440.0" prefWidth="110.0" style="-fx-padding: 5px 0 0 0" styleClass="sideBar">
             <!-- Columns and rows properties -->
             <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="150.0" prefWidth="100.0"/>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="160.0" prefWidth="160.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="360" minHeight="10.0" prefHeight="25" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="Infinity" minHeight="100" prefHeight="-Infinity" vgrow="ALWAYS"/>
-                <RowConstraints maxHeight="195" minHeight="0.0" prefHeight="60" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="360" minHeight="20.0" prefHeight="25" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="Infinity" minHeight="100" prefHeight="-Infinity" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="195" minHeight="80.0" prefHeight="60" vgrow="SOMETIMES"/>
             </rowConstraints>
 
             <!-- 'tline' logo -->
-            <Label alignment="CENTER" contentDisplay="CENTER" text="tline" GridPane.rowIndex="2" styleClass="logo"/>
+            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="logo" text="tline" GridPane.rowIndex="2" />
+                <!-- Dates labels -->
+                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-bar" GridPane.rowIndex="1">
+                    <VBox fx:id="vBox" alignment="TOP_CENTER" styleClass="vBox" GridPane.hgrow="ALWAYS" />
+                </ScrollPane>
 
-            <!-- Dates labels -->
-            <ScrollPane GridPane.rowIndex="1" hbarPolicy="NEVER" fitToWidth="true" fitToHeight="true" styleClass="scroll-bar">
-                <VBox fx:id="vBox" alignment="TOP_CENTER" styleClass="sideBar" GridPane.hgrow="ALWAYS"/>
-            </ScrollPane>
-
-            <!-- 'Total' label -->
-            <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0"
-                   text="Total" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited"
-                   onMouseClicked="#onMouseClicked" textAlignment="CENTER" styleClass="totalLabel"
-                   GridPane.rowIndex="0"/>
+                <!-- 'Total' label -->
+            <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onMouseClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="19.0" prefWidth="123.0" styleClass="totalLabel" text="Total" textAlignment="CENTER" GridPane.rowIndex="0" />
         </GridPane>
     </left>
-
-    <center>
-        <BarChart legendSide="LEFT" BorderPane.alignment="CENTER">
-            <xAxis>
-                <CategoryAxis side="BOTTOM"/>
-            </xAxis>
-            <yAxis>
-                <NumberAxis side="LEFT"/>
-            </yAxis>
-        </BarChart>
-    </center>
+   <center>
+       <ScrollPane prefHeight="200.0" prefWidth="200.0" styleClass="darkBG" stylesheets="@../../../style.css"
+                   BorderPane.alignment="CENTER">
+           <VBox prefHeight="478.0" prefWidth="436.0">
+               <Label prefHeight="27.0" prefWidth="463.0" text="Label" textAlignment="JUSTIFY"/>
+               <BarChart prefHeight="468.0" prefWidth="436.0">
+                   <xAxis>
+                       <CategoryAxis side="BOTTOM"/>
+                   </xAxis>
+                   <yAxis>
+                       <NumberAxis side="LEFT"/>
+                   </yAxis>
+               </BarChart>
+           </VBox>
+       </ScrollPane>
+   </center>
 
 </BorderPane>
