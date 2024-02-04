@@ -28,13 +28,15 @@
             </rowConstraints>
 
             <!-- 'tline' logo -->
-            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="logo" text="tline" GridPane.rowIndex="2" />
-                <!-- Dates labels -->
-                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-bar" GridPane.rowIndex="1">
-                    <VBox fx:id="vBox" alignment="TOP_CENTER" styleClass="vBox" GridPane.hgrow="ALWAYS" />
-                </ScrollPane>
+            <Label alignment="CENTER" contentDisplay="CENTER" styleClass="logo" text="tline" GridPane.rowIndex="2"
+                fx:id="logo" onMouseClicked="#onMouseClicked" onMouseExited="#onMouseExited"
+                   onMouseEntered="#onMouseEntered"/>
+            <!-- Dates labels -->
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-bar" GridPane.rowIndex="1">
+                <VBox fx:id="vBox" alignment="TOP_CENTER" styleClass="vBox" GridPane.hgrow="ALWAYS" />
+            </ScrollPane>
 
-                <!-- 'Total' label -->
+            <!-- 'Total' label -->
             <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onMouseClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="19.0" prefWidth="123.0" styleClass="totalLabel" text="Total" textAlignment="CENTER" GridPane.rowIndex="0" />
         </GridPane>
     </left>

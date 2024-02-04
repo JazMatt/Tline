@@ -69,6 +69,7 @@
 
 /* Style for scrollbar track */
 .scroll-bar .track {
+    -fx-background-color: #252525;
     -fx-background-insets: 2px;
 }
 
@@ -96,6 +97,10 @@
     -fx-border-radius: 10px;
     -fx-border-color: white;
     -fx-border-width: 1px;
+}
+
+.logoHovered {
+    -fx-font-size: 47px;
 }
 
 /* Style for sidebar */

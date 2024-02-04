@@ -30,6 +30,8 @@ public class Controller1 implements Initializable {
     private VBox vBox; // VBox for labels (except the 'total' label)
     @FXML
     private Label total; // 'total' label
+    @FXML
+    private Label logo;
     private ArrayList<String> datesAL; // Array list of databases names
     private ScaleTransition scaleTransition; // animation
     private ArrayList<Label> labels = new ArrayList<>();
@@ -41,6 +43,16 @@ public class Controller1 implements Initializable {
         datesAL = new ArrayList<>();
         labels.add(total);
         total.getStyleClass().add("dateClicked");
+        logo.getStyleClass().add("""
+                .animated-gradient {
+                  animation: animateBg 14s linear infinite;
+                  background-image: linear-gradient(90deg,#ffea00,#fffb94,#ffcf66,#ffea00,#fffb94);
+                  background-size: 400% 100%;
+                }
+                @keyframes animateBg {
+                  0% { background-position: 100% 0%; }
+                  100% { background-position: 0% 0%; }
+                }""");
 
         // Create scale transition for hover effect
         scaleTransition = new ScaleTransition(Duration.millis(100));
@@ -90,10 +102,12 @@ public class Controller1 implements Initializable {
             currentLabel.setScaleY(1.0);
         }
 
-        // add style to clicked label
-        label.getStyleClass().remove("dateLabel");
-        label.getStyleClass().remove("dateHovered");
-        label.getStyleClass().add("dateClicked");
+        if (label != logo) {
+            // add style to clicked label
+            label.getStyleClass().remove("dateLabel");
+            label.getStyleClass().remove("dateHovered");
+            label.getStyleClass().add("dateClicked");
+        }
 
         scaleTransition.stop();
         scaleTransition.setFromX(1.0);
@@ -104,21 +118,39 @@ public class Controller1 implements Initializable {
         scaleTransition.setFromY(1.15);
         scaleTransition.setToX(1.1);
         scaleTransition.setToY(1.1);
+        if (label == logo) {
+            scaleTransition.setToX(1.0);
+            scaleTransition.setToY(1.0);
+        }
         scaleTransition.setNode(label);
         scaleTransition.play();
+        if (label == logo) {
+            // Redirect to website
+            System.out.println("Should be redirected to website");
+        }
     }
 
 
-    // Methods for 'total' label only
+    // Methods for 'total' and 'logo' labels only
     public void onMouseEntered(MouseEvent mouseEvent) {
-        onMouseEntered(total);
+        if (mouseEvent.getSource().toString().contains("Total")){
+            onMouseEntered(total);
+        } else {
+            logo.getStyleClass().add("logoHovered");
+        }
     }
-
     public void onMouseExited(MouseEvent mouseEvent) {
-        onMouseExited(total);
+        if (mouseEvent.getSource().toString().contains("Total")){
+            onMouseExited(total);
+        } else {
+            logo.getStyleClass().remove("logoHovered");
+        }
     }
-
     public void onMouseClicked(MouseEvent mouseEvent) {
-        onMouseClicked(total);
+        if (mouseEvent.getSource().toString().contains("Total")){
+            onMouseClicked(total);
+        } else {
+            onMouseClicked(logo);
+        }
     }
 }
