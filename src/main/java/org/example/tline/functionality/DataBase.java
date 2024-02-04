@@ -9,8 +9,8 @@ import java.util.TreeMap;
 
 public class DataBase {
 
-    private TreeMap<String, String[]> usageData;
-    private final String dbPath;
+    private TreeMap<String, String[]> usageData; // <exe_name, [usage_time, format_name]
+    private final String dbPath; // database path
 
     public DataBase() {
 
@@ -34,8 +34,10 @@ public class DataBase {
     }
 
     public void uploadDataToDB(TreeMap<String, String[]> map) {
+        // Make copy of received tree map
         usageData = new TreeMap<>(map);
         try (Connection connection = DriverManager.getConnection(dbPath)) {
+            // Iterate through exeName from usageData
             for (var exeName : map.keySet()) {
                 updateOrInsertRecord(connection, exeName);
             }
@@ -48,17 +50,23 @@ public class DataBase {
         String[] formatResults = format(exeName);
         String formatName = formatResults[0];
         exeName = formatResults[1];
+        // get time from the last minute
         int timeFromMap = Integer.parseInt(usageData.get(exeName)[0]);
 
         try (Statement statement = connection.createStatement()) {
+
+            // get record for current exeName
             ResultSet record = statement.executeQuery("SELECT * FROM apps_time WHERE exe_name = '" + exeName + "'");
             int totalTime = timeFromMap;
+
+            // update time_usage if record is not null
             if (record.next()) {
                 int timeFromDB = record.getInt(3);
                 totalTime = timeFromDB + timeFromMap;
                 statement.execute("UPDATE apps_time SET usage_time = " + totalTime +
                         " WHERE exe_name = '" + exeName + "'");
             } else {
+                // insert new record
                 statement.execute("INSERT INTO apps_time (exe_name, format_name, usage_time) VALUES " +
                         "('" + exeName + "', '" + formatName + "', " + totalTime + ")");
             }
@@ -67,6 +75,7 @@ public class DataBase {
 
     private String[] format(String name) {
 
+        // weird names (settings, start, taskbar, etc)
         ArrayList<String> systemNames = new ArrayList<>(List.of(
                 "explorer.exe", "searchapp.exe", "shellexperiencehost.exe",
                 "startmenuexperiencehost.exe, applicationframehost.exe",
@@ -98,6 +107,6 @@ public class DataBase {
             formatName = capitalized;
         }
 
-        return new String[] {formatName, name};
+        return new String[] {formatName, name}; // {format_name, exe_name}
     }
 }

@@ -18,20 +18,23 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.nio.file.Files;
+import java.sql.*;
+import java.util.*;
+
 import javafx.scene.input.MouseEvent;
 
 
 public class Controller1 implements Initializable {
-    private int counter = 0;
 
     @FXML
     private VBox vBox; // VBox for labels (except the 'total' label)
     @FXML
     private Label total; // 'total' label
     @FXML
-    private Label logo;
+    private Label logo; // Logo label at the bottom
+    @FXML
+    private Label customLabel;
     private ArrayList<String> datesAL; // Array list of databases names
     private ScaleTransition scaleTransition; // animation
     private ArrayList<Label> labels = new ArrayList<>();
@@ -43,16 +46,6 @@ public class Controller1 implements Initializable {
         datesAL = new ArrayList<>();
         labels.add(total);
         total.getStyleClass().add("dateClicked");
-        logo.getStyleClass().add("""
-                .animated-gradient {
-                  animation: animateBg 14s linear infinite;
-                  background-image: linear-gradient(90deg,#ffea00,#fffb94,#ffcf66,#ffea00,#fffb94);
-                  background-size: 400% 100%;
-                }
-                @keyframes animateBg {
-                  0% { background-position: 100% 0%; }
-                  100% { background-position: 0% 0%; }
-                }""");
 
         // Create scale transition for hover effect
         scaleTransition = new ScaleTransition(Duration.millis(100));
@@ -109,6 +102,7 @@ public class Controller1 implements Initializable {
             label.getStyleClass().add("dateClicked");
         }
 
+        // 'POP' animation
         scaleTransition.stop();
         scaleTransition.setFromX(1.0);
         scaleTransition.setFromY(1.0);
@@ -119,15 +113,33 @@ public class Controller1 implements Initializable {
         scaleTransition.setToX(1.1);
         scaleTransition.setToY(1.1);
         if (label == logo) {
+            scaleTransition.setFromX(1.1);
+            scaleTransition.setFromY(1.1);
             scaleTransition.setToX(1.0);
             scaleTransition.setToY(1.0);
         }
         scaleTransition.setNode(label);
         scaleTransition.play();
+
         if (label == logo) {
             // Redirect to website
             System.out.println("Should be redirected to website");
+            return;
         }
+
+        customLabel.setText(label.getText());
+
+        if (label != total) {
+
+            // get data for chosen database
+            DataBaseGUI database = new DataBaseGUI(label);
+            database.connectToDB();
+
+            // array list sorted by usage_time descending
+            var usageData = database.getUsageData();
+            usageData.forEach(array -> System.out.println(Arrays.toString(array)));
+        }
+
     }
 
 
@@ -153,4 +165,5 @@ public class Controller1 implements Initializable {
             onMouseClicked(logo);
         }
     }
+
 }

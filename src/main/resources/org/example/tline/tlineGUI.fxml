@@ -41,11 +41,11 @@
         </GridPane>
     </left>
    <center>
-       <ScrollPane prefHeight="200.0" prefWidth="200.0" styleClass="darkBG" stylesheets="@../../../style.css"
-                   BorderPane.alignment="CENTER">
-           <VBox prefHeight="478.0" prefWidth="436.0">
-               <Label prefHeight="27.0" prefWidth="463.0" text="Label" textAlignment="JUSTIFY"/>
-               <BarChart prefHeight="468.0" prefWidth="436.0">
+       <ScrollPane prefHeight="200.0" prefWidth="200.0" styleClass="scroll-bar" stylesheets="@../../../style.css"
+                   BorderPane.alignment="CENTER" fitToWidth="true">
+           <VBox prefHeight="Infinity" prefWidth="440">
+               <Label prefHeight="27.0" prefWidth="460" textAlignment="JUSTIFY" fx:id="customLabel"/>
+               <BarChart>
                    <xAxis>
                        <CategoryAxis side="BOTTOM"/>
                    </xAxis>
