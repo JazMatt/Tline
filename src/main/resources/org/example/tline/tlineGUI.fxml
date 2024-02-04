@@ -13,9 +13,11 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
 <BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            stylesheets="@../../../style.css" fx:controller="org.example.tline.gui.Controller1">
+            stylesheets="@../../../style.css" fx:controller="org.example.tline.gui.Controller1" styleClass="darkBG">
 <!--    <fx:define>-->
 <!--        <Font fx:id="logoFont" name="OdibeeSans.ttf" size="16" />-->
 <!--        <Font fx:id="robotoFont" name="RobotoFont.ttf" size="16" />-->
@@ -35,9 +37,14 @@
                                vgrow="SOMETIMES"/>
            </rowConstraints>
            <Label alignment="CENTER" contentDisplay="CENTER" text="tline" GridPane.rowIndex="2" styleClass="logo"/>
-           <VBox prefHeight="Infinity" prefWidth="300.0" GridPane.rowIndex="1" fx:id="vBox" alignment="TOP_CENTER">
-
-           </VBox>
+           <ScrollPane GridPane.rowIndex="1" hbarPolicy="NEVER" fitToWidth="true"
+                styleClass="scroll-bar">
+               <VBox fx:id="vBox" alignment="CENTER" styleClass="sideBar" GridPane.hgrow="ALWAYS">
+<!--                   <padding>-->
+<!--                       <Insets top="10" right="10" bottom="10" left="10"/>-->
+<!--                   </padding>-->
+               </VBox>
+           </ScrollPane>
            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0" text="Total"
                   onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMouseClicked="#onMouseClicked"
                   textAlignment="CENTER" styleClass="dateLabel" GridPane.rowIndex="0"/>

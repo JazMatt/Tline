@@ -15,8 +15,13 @@
 }
 
 .sideBar {
-    -fx-background-color: #222222; /* Dark background color */
+    -fx-background-color: #2A2A2A; /* Dark background color */
     -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.darkBG {
+    -fx-background-color: #2A2A2A;
 }
 
 
@@ -39,4 +44,28 @@
 
 .dateLabel.clicked {
     -fx-text-fill: red;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    visibility: hidden;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #494949; /* Set the color of the scrollbar */
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-radius: 10px; /* Set the corner radius of the scrollbar */
+    -fx-min-width: 2px; /* Set the width of the scrollbar */
+}
+
+/* Set width and color of the scrollbar track */
+.scroll-bar .track {
+    -fx-background-color: transparent; /* Set the color of the track */
+    -fx-background-radius: 10px; /* Set the corner radius of the track */
+}
+
+/* Set width and color of the scrollbar thumb when hovered */
+.scroll-bar .thumb:hover {
+    -fx-background-color: #999999; /* Set the color of the thumb when hovered */
 }

@@ -7,9 +7,13 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
-import javafx.util.Duration;;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
@@ -22,7 +26,6 @@ public class Controller1 implements Initializable {
 
     @FXML
     private VBox vBox;
-
     private ArrayList<String> datesAL;
 
     private ScaleTransition scaleTransition;
@@ -82,6 +85,8 @@ public class Controller1 implements Initializable {
     private void onMouseClicked(Label label) {
         if (currentLabel != null && currentLabel != label) {
             currentLabel.setStyle("-fx-background-color: transparent;");
+            label.setBackground(new Background(new BackgroundFill(Color.DARKORCHID, null, null)));
+
         }
 
         currentLabel = label;

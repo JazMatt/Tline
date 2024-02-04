@@ -15,8 +15,8 @@ public class Stage1 extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/tline/tlineGUI.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
-            stage.setMinWidth(500);
-            stage.setMinHeight(300);
+            stage.setMinWidth(700);
+            stage.setMinHeight(500);
             stage.setTitle("Tline");
             stage.setScene(scene);
             stage.show();
