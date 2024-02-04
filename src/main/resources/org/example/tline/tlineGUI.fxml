@@ -4,61 +4,56 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.geometry.Insets?>
+
 <BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            stylesheets="@../../../style.css" fx:controller="org.example.tline.gui.Controller1" styleClass="darkBG">
-<!--    <fx:define>-->
-<!--        <Font fx:id="logoFont" name="OdibeeSans.ttf" size="16" />-->
-<!--        <Font fx:id="robotoFont" name="RobotoFont.ttf" size="16" />-->
-<!--    </fx:define>-->
-   <left>
-<!--       <VBox alignment="CENTER" prefHeight="401.0" prefWidth="130.0" BorderPane.alignment="CENTER">-->
-       <GridPane prefHeight="440.0" prefWidth="110.0" styleClass="sideBar">
-           <columnConstraints>
-               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="150.0" prefWidth="100.0"/>
-           </columnConstraints>
-           <rowConstraints>
-               <RowConstraints maxHeight="360" minHeight="10.0" prefHeight="25"
-                               vgrow="SOMETIMES"/>
-               <RowConstraints maxHeight="Infinity" minHeight="100" prefHeight="-Infinity"
-                               vgrow="ALWAYS"/>
-               <RowConstraints maxHeight="195" minHeight="0.0" prefHeight="60"
-                               vgrow="SOMETIMES"/>
-           </rowConstraints>
-           <Label alignment="CENTER" contentDisplay="CENTER" text="tline" GridPane.rowIndex="2" styleClass="logo"/>
-           <ScrollPane GridPane.rowIndex="1" hbarPolicy="NEVER" fitToWidth="true"
-                styleClass="scroll-bar">
-               <VBox fx:id="vBox" alignment="CENTER" styleClass="sideBar" GridPane.hgrow="ALWAYS">
-<!--                   <padding>-->
-<!--                       <Insets top="10" right="10" bottom="10" left="10"/>-->
-<!--                   </padding>-->
-               </VBox>
-           </ScrollPane>
-           <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0" text="Total"
-                  onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" onMouseClicked="#onMouseClicked"
-                  textAlignment="CENTER" styleClass="dateLabel" GridPane.rowIndex="0"/>
-       </GridPane>
-<!--       </VBox>-->
-   </left>
-   <center>
-      <BarChart legendSide="LEFT" BorderPane.alignment="CENTER">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </BarChart>
-   </center>
+            fx:controller="org.example.tline.gui.Controller1" styleClass="darkBG"
+            stylesheets="@../../../style.css">
+
+    <left>
+        <GridPane prefHeight="440.0" prefWidth="110.0" styleClass="sideBar" style="-fx-padding: 5px 0 0 0">
+            <!-- Columns and rows properties -->
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="150.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="360" minHeight="10.0" prefHeight="25" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="Infinity" minHeight="100" prefHeight="-Infinity" vgrow="ALWAYS"/>
+                <RowConstraints maxHeight="195" minHeight="0.0" prefHeight="60" vgrow="SOMETIMES"/>
+            </rowConstraints>
+
+            <!-- 'tline' logo -->
+            <Label alignment="CENTER" contentDisplay="CENTER" text="tline" GridPane.rowIndex="2" styleClass="logo"/>
+
+            <!-- Dates labels -->
+            <ScrollPane GridPane.rowIndex="1" hbarPolicy="NEVER" fitToWidth="true" fitToHeight="true" styleClass="scroll-bar">
+                <VBox fx:id="vBox" alignment="TOP_CENTER" styleClass="sideBar" GridPane.hgrow="ALWAYS"/>
+            </ScrollPane>
+
+            <!-- 'Total' label -->
+            <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="123.0"
+                   text="Total" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited"
+                   onMouseClicked="#onMouseClicked" textAlignment="CENTER" styleClass="totalLabel"
+                   GridPane.rowIndex="0"/>
+        </GridPane>
+    </left>
+
+    <center>
+        <BarChart legendSide="LEFT" BorderPane.alignment="CENTER">
+            <xAxis>
+                <CategoryAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT"/>
+            </yAxis>
+        </BarChart>
+    </center>
+
 </BorderPane>

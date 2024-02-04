@@ -8,64 +8,82 @@
     src: url('fonts/RobotoFont.ttf');
 }
 
+/* Common styles for labels */
+.dateLabel, .dateClicked, totalLabel {
+    -fx-font-family: "Roboto Condensed Thin";
+    -fx-font-size: 13px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 3 3 3 3 ;
+    -fx-padding: 2px 25px 2px 25px;
+    -fx-background-insets: 2px 0 2px 0;
+}
+
+/* Default style for labels */
+.dateLabel {
+    -fx-text-fill: white;
+}
+
+/* Style for clicked labels */
+.dateClicked {
+    -fx-text-fill: black;
+    -fx-background-color: white;
+}
+
+.totalLabel {
+    -fx-padding: 1px 15px 1px 15px;
+    -fx-background-insets: 1px 1px 1px 1px;
+}
+/* Common styles for scroll bar */
+.scroll-bar {
+    -fx-background-color: #2A2A2A;
+}
+
+/* Style for scrollbar thumb */
+.scroll-bar .thumb {
+    -fx-background-color: #494949;
+    -fx-background-insets: 1px;
+    -fx-background-radius: 10px;
+    -fx-min-width: 2px;
+    -fx-max-width: 2px;
+}
+
+/* Style for scrollbar thumb when hovered */
+.scroll-bar .thumb:hover {
+    -fx-background-color: #535353;
+}
+
+/* Style for scrollbar track */
+.scroll-bar .track {
+    -fx-background-insets: 2px;
+}
+
+/* Style for hiding scrollbar arrows */
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    visibility: hidden;
+}
+
+/* Style for vertical scrollbar */
+.scroll-bar:vertical {
+    -fx-pref-width: 10;
+    -fx-padding: 3;
+}
+
+/* Style for logo label */
 .logo {
     -fx-font-family: "Odibee Sans";
     -fx-font-size: 46px;
     -fx-text-fill: white;
 }
 
+/* Style for sidebar */
 .sideBar {
-    -fx-background-color: #2A2A2A; /* Dark background color */
+    -fx-background-color: #2A2A2A;
     -fx-text-fill: white;
-    -fx-alignment: center;
 }
 
+/* Style for dark background */
 .darkBG {
     -fx-background-color: #2A2A2A;
-}
-
-
-
-.dateLabel {
-    -fx-font-family: "Roboto Condensed Thin";
-    -fx-font-weight: bold;
-    -fx-font-size: 13px;
-    -fx-text-fill: white;
-    -fx-padding: 5px;
-    -fx-background-color: transparent;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-}
-
-.dateLabel.hovered {
-    -fx-font-size: 16px;
-    -fx-text-fill: blue;
-}
-
-.dateLabel.clicked {
-    -fx-text-fill: red;
-}
-
-.scroll-bar .increment-arrow,
-.scroll-bar .decrement-arrow {
-    visibility: hidden;
-}
-
-.scroll-bar .thumb {
-    -fx-background-color: #494949; /* Set the color of the scrollbar */
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-background-radius: 10px; /* Set the corner radius of the scrollbar */
-    -fx-min-width: 2px; /* Set the width of the scrollbar */
-}
-
-/* Set width and color of the scrollbar track */
-.scroll-bar .track {
-    -fx-background-color: transparent; /* Set the color of the track */
-    -fx-background-radius: 10px; /* Set the corner radius of the track */
-}
-
-/* Set width and color of the scrollbar thumb when hovered */
-.scroll-bar .thumb:hover {
-    -fx-background-color: #999999; /* Set the color of the thumb when hovered */
 }
