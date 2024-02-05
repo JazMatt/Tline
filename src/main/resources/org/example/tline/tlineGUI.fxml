@@ -42,17 +42,9 @@
     </left>
    <center>
        <ScrollPane prefHeight="200.0" prefWidth="200.0" styleClass="scroll-bar" stylesheets="@../../../style.css"
-                   BorderPane.alignment="CENTER" fitToWidth="true">
+                   BorderPane.alignment="CENTER" fitToWidth="true" fitToHeight="true">
            <VBox prefHeight="Infinity" prefWidth="440" fx:id="chartVbox">
                <Label prefHeight="27.0" prefWidth="460" textAlignment="JUSTIFY" fx:id="customLabel"/>
-               <BarChart fx:id="barChart">
-                   <xAxis>
-                       <CategoryAxis fx:id="yAxis"/>
-                   </xAxis>
-                   <yAxis>
-                       <NumberAxis fx:id="xAxis"/>
-                   </yAxis>
-               </BarChart>
            </VBox>
        </ScrollPane>
    </center>

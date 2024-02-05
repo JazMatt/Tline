@@ -60,9 +60,11 @@ public class Controller1 implements Initializable {
         if (files != null) {
             // Format files names, create labels from them, add properties and add to VBox
             for (File file : files) {
-                String fileName = file.getName().replace("time-data-", "").replace(".db", "");
-                Label label = new Label(fileName);
-                setupLabel(label); // setup label's properties
+                if (!file.isDirectory()) {
+                    String fileName = file.getName().replace("time-data-", "").replace(".db", "");
+                    Label label = new Label(fileName);
+                    setupLabel(label); // setup label's properties
+                }
             }
         }
     }
@@ -116,7 +118,9 @@ public class Controller1 implements Initializable {
             var usageData = database.getUsageData();
 
             // remove the previous chart
-            chartVbox.getChildren().remove(barChart);
+            if (barChart != null) {
+                chartVbox.getChildren().remove(barChart);
+            }
 
             // setup new barChart
             Charts charts = new Charts();
@@ -154,6 +158,7 @@ public class Controller1 implements Initializable {
             onMouseClicked(logo);
         }
     }
+
 
     // Setup label properties
     private void setupLabel(Label label) {

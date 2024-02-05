@@ -66,8 +66,8 @@ public class DataBaseGUI {
             int int1 = Integer.parseInt(o1[2]);
             int int2 = Integer.parseInt(o2[2]);
 
-            if (int1 > int2) return 1;
-            if (int1 < int2) return -1;
+            if (int1 > int2) return -1;
+            if (int1 < int2) return 1;
 
             // if usage_time is the same, compare format_name
             return o1[1].compareTo(o2[1]);
