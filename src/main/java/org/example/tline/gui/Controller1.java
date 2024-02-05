@@ -119,8 +119,12 @@ public class Controller1 implements Initializable {
 
             // remove the previous chart
             if (barChart != null) {
-                chartVbox.getChildren().remove(barChart);
+                chartVbox.getChildren().clear();
+
+                // add the title
+                chartVbox.getChildren().add(customLabel);
             }
+
 
             // setup new barChart
             Charts charts = new Charts();
@@ -130,6 +134,9 @@ public class Controller1 implements Initializable {
             yAxis = charts.getyAxis();
             chartVbox.getChildren().add(barChart);
             Charts.setupChart(barChart, xAxis, yAxis);
+
+            // show label with additional statistics
+            charts.showSummaryLabel(chartVbox);
         }
     }
 

@@ -1,5 +1,6 @@
 package org.example.tline.gui;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
@@ -8,6 +9,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.control.Label;
 
@@ -15,6 +17,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.TreeMap;
 
 public class Charts {
@@ -22,6 +25,7 @@ public class Charts {
     private NumberAxis xAxis = new NumberAxis();
     private CategoryAxis yAxis = new CategoryAxis();
     private BarChart<Number, String> barChart;
+    private int totalTime;
 
 
     public Charts() {
@@ -57,7 +61,7 @@ public class Charts {
             String[] revArray = reversedData.get(i); // [usage_time, format_name, exe_name]
 
             // Create new bar and add proper color to it
-            var newBar = new XYChart.Data(Integer.parseInt(revArray[2]), revArray[1]);
+            var newBar = new XYChart.Data(Integer.parseInt(revArray[2])/3600d, revArray[1]);
             newBar.nodeProperty().addListener((observable, oldNode, newNode) -> {
                 if (newNode != null) {
                     String colorHEX = "#FFCD00";
@@ -69,6 +73,8 @@ public class Charts {
                 }
             });
 
+            // sum time from all apps
+            totalTime += Integer.parseInt(array[2]);
 
             dataSeries.getData().add(newBar);
 
@@ -79,6 +85,7 @@ public class Charts {
         barChart.setAnimated(true);
         barChart.getData().add(dataSeries);
         barChart.setMinHeight(100);
+        barChart.setPadding(new Insets(0, 30, 0, 15));
         // Adjust prefHeight to number of bars
         int size = barChart.getData().get(0).getData().size();
         barChart.setPrefHeight(size * 40 + 40);
@@ -109,6 +116,22 @@ public class Charts {
         } catch (SQLException ignore) {}
 
         return colorSettings;
+    }
+
+    void showSummaryLabel(VBox vbox) {
+
+        // format total time
+        int hours = totalTime / 3600;
+        int minutes = totalTime % 60;
+        Label summaryLabel = new Label();
+
+        if (hours == 0) {
+            summaryLabel.setText("Total Time: " + minutes+"min");
+        } else {
+            summaryLabel.setText("Total Time: " + hours+"h" + minutes+"min");
+        }
+        summaryLabel.getStyleClass().add("summaryLabel");
+        vbox.getChildren().add(summaryLabel);
     }
 
 }

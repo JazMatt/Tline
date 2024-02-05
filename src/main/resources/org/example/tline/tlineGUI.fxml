@@ -44,8 +44,8 @@
         </GridPane>
     </left>
    <center>
-       <ScrollPane prefWidth="200.0" styleClass="scroll-bar" stylesheets="@../../../style.css"
-                   BorderPane.alignment="CENTER" fitToWidth="true">
+       <ScrollPane prefWidth="200.0" style="-fx-background-color: black" stylesheets="@../../../style.css"
+                   BorderPane.alignment="CENTER" fitToWidth="true" prefHeight="Infinity" fitToHeight="true">
            <VBox fx:id="chartVbox" styleClass="center-background">
                <Label alignment="CENTER" prefHeight="27.0" prefWidth="Infinity" textAlignment="CENTER" fx:id="customLabel"
                       styleClass="customLabel" VBox.vgrow="ALWAYS"/>
