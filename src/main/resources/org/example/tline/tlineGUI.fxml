@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.StackPane?>
 <BorderPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="darkBG"
             stylesheets="@../../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.tline.gui.Controller1">
@@ -37,14 +38,17 @@
             </ScrollPane>
 
             <!-- 'Total' label -->
-            <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onMouseClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="19.0" prefWidth="123.0" styleClass="totalLabel" text="Total" textAlignment="CENTER" GridPane.rowIndex="0" />
+            <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onMouseClicked"
+                   onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="19.0" prefWidth="123.0"
+                   styleClass="totalLabel" text="Total" textAlignment="CENTER" GridPane.rowIndex="0" />
         </GridPane>
     </left>
    <center>
-       <ScrollPane prefHeight="200.0" prefWidth="200.0" styleClass="scroll-bar" stylesheets="@../../../style.css"
-                   BorderPane.alignment="CENTER" fitToWidth="true" fitToHeight="true">
-           <VBox prefHeight="Infinity" prefWidth="440" fx:id="chartVbox">
-               <Label prefHeight="27.0" prefWidth="460" textAlignment="JUSTIFY" fx:id="customLabel"/>
+       <ScrollPane prefWidth="200.0" styleClass="scroll-bar" stylesheets="@../../../style.css"
+                   BorderPane.alignment="CENTER" fitToWidth="true">
+           <VBox fx:id="chartVbox" styleClass="center-background">
+               <Label alignment="CENTER" prefHeight="27.0" prefWidth="Infinity" textAlignment="CENTER" fx:id="customLabel"
+                      styleClass="customLabel" VBox.vgrow="ALWAYS"/>
            </VBox>
        </ScrollPane>
    </center>

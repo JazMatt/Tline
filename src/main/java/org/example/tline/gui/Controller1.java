@@ -47,7 +47,6 @@ public class Controller1 implements Initializable {
 
         datesAL = new ArrayList<>();
         labels.add(total);
-        total.getStyleClass().add("dateClicked");
 
         // Create scale transition for hover effect
         scaleTransition = new ScaleTransition(Duration.millis(100));
@@ -70,12 +69,13 @@ public class Controller1 implements Initializable {
     }
 
     private void onMouseEntered(Label label) {
-        label.getStyleClass().add("dateHovered");
+        if (!label.getStyleClass().toString().contains("dateClicked")) {
+            label.getStyleClass().add("dateHovered");
+        }
     }
 
     private void onMouseExited(Label label) {
         label.getStyleClass().remove("dateHovered");
-        label.getStyleClass().add("dateLabel");
     }
 
     private void onMouseClicked(Label label) {
@@ -105,7 +105,7 @@ public class Controller1 implements Initializable {
             return;
         }
 
-        customLabel.setText(label.getText());
+        customLabel.setText(label.getText() + " - Screen Time");
 
         if (label != total) {
 
@@ -129,10 +129,8 @@ public class Controller1 implements Initializable {
             xAxis = charts.getxAxis();
             yAxis = charts.getyAxis();
             chartVbox.getChildren().add(barChart);
-            Charts.setupChart(barChart, xAxis, yAxis) ;
-
+            Charts.setupChart(barChart, xAxis, yAxis);
         }
-
     }
 
 

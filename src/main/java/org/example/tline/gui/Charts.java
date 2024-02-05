@@ -7,11 +7,13 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Region;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.control.Label;
+
+import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.TreeMap;
 
@@ -48,8 +50,6 @@ public class Charts {
         Collections.reverse(reversedData); // Reversed array list for setting colors to bars
 
         TreeMap<String, String> colorsSettings = getColorSettings();
-        System.out.println(colorsSettings);
-        usageData.forEach(s -> System.out.print(Arrays.toString(s) + "    "));
         // Add all record to series
         for (int i = 0; i < usageData.size(); i++) {
 
@@ -63,34 +63,44 @@ public class Charts {
                     String colorHEX = "#FFCD00";
                     if (colorsSettings.keySet().contains(array[1])) {
                         colorHEX = colorsSettings.get(array[1]);
-                        System.out.println("hello");
                     }
+                    ((Region) newNode).getStyleClass().add("bar");
                     ((Region) newNode).setStyle("-fx-bar-fill: " + colorHEX);
                 }
             });
+
+
             dataSeries.getData().add(newBar);
+
         }
         // Add series to chart
-        barChart.setBarGap(1); // Increase the gap between bars
+        barChart.setBarGap(1);
         barChart.setCategoryGap(1);
         barChart.setAnimated(true);
         barChart.getData().add(dataSeries);
+        barChart.setMinHeight(100);
+        // Adjust prefHeight to number of bars
+        int size = barChart.getData().get(0).getData().size();
+        barChart.setPrefHeight(size * 40 + 40);
     }
 
     public static void setupChart(BarChart chart, NumberAxis xAxis, CategoryAxis yAxis) {
 
-        chart.setTitle("Chart");
+        chart.getStyleClass().add("chart");
+        yAxis.setTickLabelFill(Paint.valueOf("white"));
+        xAxis.setTickLabelFill(Paint.valueOf("white"));
     }
 
     private static TreeMap<String, String> getColorSettings() {
 
-        TreeMap<String, String> colorSettings = new TreeMap<>();
+        TreeMap<String, String> colorSettings = new TreeMap<>(); // <format_name, color>
 
         try (Connection connection = DriverManager.getConnection(
                 "jdbc:sqlite:resources\\databases\\other-databases\\colors-settings.db")) {
 
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery("SELECT * FROM settings");
+            // add all records to colorSettings
             while (results.next()) {
                 colorSettings.put(
                         results.getString(1), results.getString(2));

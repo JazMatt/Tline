@@ -9,8 +9,9 @@
 }
 
 /* Common styles for labels */
-.dateLabel, .dateClicked, totalLabel {
+.dateLabel, .dateClicked, .totalLabel {
     -fx-font-family: "Roboto Condensed Thin";
+    -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
     -fx-border-width: 1px;
@@ -33,7 +34,7 @@
 }
 
 .dateHovered {
-    -fx-border-radius: 10px;
+    -fx-border-radius: 15px;
     -fx-border-color: white;
     -fx-border-width: 1px;
     -fx-font-size: 14px
@@ -50,7 +51,7 @@
 /* Common styles for scroll bar */
 .scroll-bar {
     -fx-background-radius: 10px;
-    -fx-background-color: #2A2A2A;
+    -fx-background-color: transparent;
 }
 
 /* Style for scrollbar thumb */
@@ -69,7 +70,7 @@
 
 /* Style for scrollbar track */
 .scroll-bar .track {
-    -fx-background-color: #252525;
+    -fx-background-color: transparent;
     -fx-background-insets: 2px;
 }
 
@@ -117,5 +118,57 @@
 
 /* Style for dark background */
 .darkBG {
-    -fx-background-color: #2A2A2A;
+    -fx-background-color: linear-gradient(to bottom right, #232526, #414345);
 }
+
+.chart {
+    -fx-text-fill: white;
+    -fx-font-family: "Roboto Condensed Thin";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+
+    -fx-tick-label-font-family: 'Arial';
+    -fx-tick-label-font-size: 14px;
+}
+
+.chart-tick-label {
+    -fx-text-fill: black;
+}
+
+
+.chart-vertical-grid-lines {
+    -fix-stroke: 50%;
+}
+.chart .chart-horizontal-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-legend {
+    -fx-opacity: 0;
+}
+
+.chart-axis > .axis:horizontal {
+    -fx-opacity: 0.5;
+}
+
+.customLabel {
+    -fx-font-family: "Gill Sans", "Gill Sans MT", "Arial", "sans-serif";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-padding: 15px 0 0 0;
+    -fx-background-insets: 0 0 0 0;
+}
+
+
+/* Apply the animation to the center area */
+.center-background {
+   -fx-background-color: linear-gradient(to bottom right, #232526, #414345);
+}
+
