@@ -43,14 +43,14 @@
    <center>
        <ScrollPane prefHeight="200.0" prefWidth="200.0" styleClass="scroll-bar" stylesheets="@../../../style.css"
                    BorderPane.alignment="CENTER" fitToWidth="true">
-           <VBox prefHeight="Infinity" prefWidth="440">
+           <VBox prefHeight="Infinity" prefWidth="440" fx:id="chartVbox">
                <Label prefHeight="27.0" prefWidth="460" textAlignment="JUSTIFY" fx:id="customLabel"/>
-               <BarChart>
+               <BarChart fx:id="barChart">
                    <xAxis>
-                       <CategoryAxis side="BOTTOM"/>
+                       <CategoryAxis fx:id="yAxis"/>
                    </xAxis>
                    <yAxis>
-                       <NumberAxis side="LEFT"/>
+                       <NumberAxis fx:id="xAxis"/>
                    </yAxis>
                </BarChart>
            </VBox>

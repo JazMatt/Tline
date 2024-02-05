@@ -1,25 +1,19 @@
 package org.example.tline.gui;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
-import java.sql.*;
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
@@ -35,6 +29,14 @@ public class Controller1 implements Initializable {
     private Label logo; // Logo label at the bottom
     @FXML
     private Label customLabel;
+    @FXML
+    private BarChart<Number, String> barChart; // Bar chart for usage time statistics
+    @FXML
+    private NumberAxis xAxis;
+    @FXML
+    private CategoryAxis yAxis;
+    @FXML
+    private VBox chartVbox; // Vbox for barChart
     private ArrayList<String> datesAL; // Array list of databases names
     private ScaleTransition scaleTransition; // animation
     private ArrayList<Label> labels = new ArrayList<>();
@@ -58,19 +60,9 @@ public class Controller1 implements Initializable {
         if (files != null) {
             // Format files names, create labels from them, add properties and add to VBox
             for (File file : files) {
-
                 String fileName = file.getName().replace("time-data-", "").replace(".db", "");
                 Label label = new Label(fileName);
-
-                label.getStyleClass().add("dateLabel");
-                label.setOnMouseEntered(event -> onMouseEntered(label));
-                label.setOnMouseExited(event -> onMouseExited(label));
-                label.setOnMouseClicked(event -> onMouseClicked(label));
-                label.setContentDisplay(ContentDisplay.LEFT);
-                label.setTextAlignment(TextAlignment.LEFT);
-
-                vBox.getChildren().add(label);
-                labels.add(label);
+                setupLabel(label); // setup label's properties
             }
         }
     }
@@ -103,23 +95,7 @@ public class Controller1 implements Initializable {
         }
 
         // 'POP' animation
-        scaleTransition.stop();
-        scaleTransition.setFromX(1.0);
-        scaleTransition.setFromY(1.0);
-        scaleTransition.setToX(1.15);
-        scaleTransition.setToY(1.15);
-        scaleTransition.setFromX(1.15);
-        scaleTransition.setFromY(1.15);
-        scaleTransition.setToX(1.1);
-        scaleTransition.setToY(1.1);
-        if (label == logo) {
-            scaleTransition.setFromX(1.1);
-            scaleTransition.setFromY(1.1);
-            scaleTransition.setToX(1.0);
-            scaleTransition.setToY(1.0);
-        }
-        scaleTransition.setNode(label);
-        scaleTransition.play();
+        popAnimation(label);
 
         if (label == logo) {
             // Redirect to website
@@ -136,8 +112,21 @@ public class Controller1 implements Initializable {
             database.connectToDB();
 
             // array list sorted by usage_time descending
+            // [exe_name, format_name, usage_time]
             var usageData = database.getUsageData();
-            usageData.forEach(array -> System.out.println(Arrays.toString(array)));
+
+            // remove the previous chart
+            chartVbox.getChildren().remove(barChart);
+
+            // setup new barChart
+            Charts charts = new Charts();
+            charts.createChart(usageData);
+            barChart = charts.getBarChart();
+            xAxis = charts.getxAxis();
+            yAxis = charts.getyAxis();
+            chartVbox.getChildren().add(barChart);
+            Charts.setupChart(barChart, xAxis, yAxis) ;
+
         }
 
     }
@@ -166,4 +155,37 @@ public class Controller1 implements Initializable {
         }
     }
 
+    // Setup label properties
+    private void setupLabel(Label label) {
+
+        label.getStyleClass().add("dateLabel");
+        label.setOnMouseEntered(event -> onMouseEntered(label));
+        label.setOnMouseExited(event -> onMouseExited(label));
+        label.setOnMouseClicked(event -> onMouseClicked(label));
+        label.setContentDisplay(ContentDisplay.LEFT);
+        label.setTextAlignment(TextAlignment.LEFT);
+
+        vBox.getChildren().add(label);
+        labels.add(label);
+    }
+
+    private void popAnimation(Label label) {
+        scaleTransition.stop();
+        scaleTransition.setFromX(1.0);
+        scaleTransition.setFromY(1.0);
+        scaleTransition.setToX(1.15);
+        scaleTransition.setToY(1.15);
+        scaleTransition.setFromX(1.15);
+        scaleTransition.setFromY(1.15);
+        scaleTransition.setToX(1.1);
+        scaleTransition.setToY(1.1);
+        if (label == logo) {
+            scaleTransition.setFromX(1.1);
+            scaleTransition.setFromY(1.1);
+            scaleTransition.setToX(1.0);
+            scaleTransition.setToY(1.0);
+        }
+        scaleTransition.setNode(label);
+        scaleTransition.play();
+    }
 }

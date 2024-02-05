@@ -1,5 +1,6 @@
 package org.example.tline.gui;
 
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
 
 import java.io.File;
@@ -12,6 +13,7 @@ public class DataBaseGUI {
     private List<File> databases = Arrays.stream(Objects.requireNonNull(new File(
             "resources/databases").listFiles())).toList();
     private ArrayList<String[]> usageData;
+    private BarChart<String, Number> barChart;
 
     public DataBaseGUI(Label label) {
         this.label = label;
@@ -64,8 +66,8 @@ public class DataBaseGUI {
             int int1 = Integer.parseInt(o1[2]);
             int int2 = Integer.parseInt(o2[2]);
 
-            if (int1 > int2) return -1;
-            if (int1 < int2) return 1;
+            if (int1 > int2) return 1;
+            if (int1 < int2) return -1;
 
             // if usage_time is the same, compare format_name
             return o1[1].compareTo(o2[1]);
