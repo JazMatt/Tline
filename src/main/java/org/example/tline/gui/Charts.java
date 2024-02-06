@@ -103,7 +103,7 @@ public class Charts {
         TreeMap<String, String> colorSettings = new TreeMap<>(); // <format_name, color>
 
         try (Connection connection = DriverManager.getConnection(
-                "jdbc:sqlite:resources\\databases\\other-databases\\colors-settings.db")) {
+                "jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
 
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery("SELECT * FROM settings");

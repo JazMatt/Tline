@@ -9,7 +9,7 @@
 }
 
 /* Common styles for labels */
-.dateLabel, .dateClicked, .totalLabel {
+.dateLabel, .dateClicked, .totalLabel, .settingsLabel{
     -fx-font-family: "Roboto Condensed Thin";
     -fx-text-fill: white;
     -fx-font-size: 13px;
@@ -17,20 +17,22 @@
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
-    -fx-border-width: 3 3 3 3 ;
-    -fx-padding: 2px 25px 2px 25px;
-    -fx-background-insets: 2px 0 2px 0;
+    -fx-border-width: 3;
+    -fx-padding: 2px 25px;
+    -fx-background-insets: 2px 0;
 }
 
-/* Default style for labels */
-.dateLabel {
-    -fx-text-fill: white;
-}
 
 /* Style for clicked labels */
-.dateClicked {
+.dateClicked, .settingsClicked {
     -fx-text-fill: black;
     -fx-background-color: white;
+}
+
+.settingsClicked {
+    -fx-font-size: 13px;
+    -fx-padding: 0 -2px 0 0;
+    -fx-background-insets: 2px -2px 2px 0;
 }
 
 .dateHovered {
@@ -40,19 +42,29 @@
     -fx-font-size: 14px
 }
 
-.totalLabel {
-    -fx-padding: 0 18px 1px 15px;
-    -fx-background-insets: 0 7px 0 1px;
-    -fx-border-radius: 10px;
-    -fx-border-insets: 0 7px 0 1px;
+.totalLabel, .settingsLabel{
+    -fx-alignment: center;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 13px;
+    -fx-border-insets: 0 10px;
     -fx-border-color: white;
     -fx-border-width: 1px;
 }
+
+.settingsLabel {
+    -fx-border-insets: 0;
+    -fx-padding: -3px 3px -4px 3px;
+    -fx-font-size: 18px;
+    -fx-background-insets: 0;
+}
+
 /* Common styles for scroll bar */
 .scroll-bar {
     -fx-background-radius: 10px;
     -fx-background-color: transparent;
 }
+
 
 /* Style for scrollbar thumb */
 .scroll-bar .thumb {
@@ -114,6 +126,7 @@
     -fx-background-color: #2F2F2F;
     -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 20, 0, 0, 0 );
     -fx-padding: 5px 0;
+    -fx-alignment: top-center;
 }
 
 /* Style for dark background */

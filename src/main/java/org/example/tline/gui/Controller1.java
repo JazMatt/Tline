@@ -37,6 +37,8 @@ public class Controller1 implements Initializable {
     private CategoryAxis yAxis;
     @FXML
     private VBox chartVbox; // Vbox for barChart
+    @FXML
+    private Label settingsLabel;
     private ArrayList<String> datesAL; // Array list of databases names
     private ScaleTransition scaleTransition; // animation
     private ArrayList<Label> labels = new ArrayList<>();
@@ -47,6 +49,7 @@ public class Controller1 implements Initializable {
 
         datesAL = new ArrayList<>();
         labels.add(total);
+        labels.add(settingsLabel);
 
         // Create scale transition for hover effect
         scaleTransition = new ScaleTransition(Duration.millis(100));
@@ -71,11 +74,14 @@ public class Controller1 implements Initializable {
     private void onMouseEntered(Label label) {
         if (!label.getStyleClass().toString().contains("dateClicked")) {
             label.getStyleClass().add("dateHovered");
+            if (label != settingsLabel) return;
+            settingsLabel.setStyle("-fx-font-size: 19px");
         }
     }
 
     private void onMouseExited(Label label) {
         label.getStyleClass().remove("dateHovered");
+        settingsLabel.setStyle("-fx-font-size: 18px");
     }
 
     private void onMouseClicked(Label label) {
@@ -85,6 +91,7 @@ public class Controller1 implements Initializable {
         for (Label currentLabel : labels) {
             currentLabel.getStyleClass().remove("dateClicked");
             currentLabel.getStyleClass().add("dateLabel");
+            settingsLabel.getStyleClass().remove("settingsClicked");
             currentLabel.setScaleX(1.0);
             currentLabel.setScaleY(1.0);
         }
@@ -93,7 +100,9 @@ public class Controller1 implements Initializable {
             // add style to clicked label
             label.getStyleClass().remove("dateLabel");
             label.getStyleClass().remove("dateHovered");
-            label.getStyleClass().add("dateClicked");
+
+            if (label != settingsLabel) label.getStyleClass().add("dateClicked");
+            else label.getStyleClass().add("settingsClicked");
         }
 
         // 'POP' animation
@@ -105,9 +114,18 @@ public class Controller1 implements Initializable {
             return;
         }
 
+        if (label == settingsLabel) {
+            showSettings();
+            return;
+        }
+
         customLabel.setText(label.getText() + " - Screen Time");
 
         if (label != total) {
+
+            String dbPath = switch(label.getText().toLowerCase()) {
+                case "total" -> "other-databases\\total-time.db"
+            }
 
             // get data for chosen database
             DataBaseGUI database = new DataBaseGUI(label);
@@ -141,17 +159,23 @@ public class Controller1 implements Initializable {
     }
 
 
-    // Methods for 'total' and 'logo' labels only
+    // Methods for 'total', 'logo' and 'settings' labels only
     public void onMouseEntered(MouseEvent mouseEvent) {
-        if (mouseEvent.getSource().toString().contains("Total")){
+
+        if (mouseEvent.getSource().toString().contains("Total")) {
             onMouseEntered(total);
+        } else if (mouseEvent.getSource().toString().contains("⚙")) {
+            onMouseEntered(settingsLabel);
         } else {
             logo.getStyleClass().add("logoHovered");
         }
     }
+
     public void onMouseExited(MouseEvent mouseEvent) {
         if (mouseEvent.getSource().toString().contains("Total")){
             onMouseExited(total);
+        } else if (mouseEvent.getSource().toString().contains("⚙")) {
+            onMouseExited(settingsLabel);
         } else {
             logo.getStyleClass().remove("logoHovered");
         }
@@ -159,6 +183,8 @@ public class Controller1 implements Initializable {
     public void onMouseClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getSource().toString().contains("Total")){
             onMouseClicked(total);
+        } else if (mouseEvent.getSource().toString().contains("⚙")) {
+            onMouseClicked(settingsLabel);
         } else {
             onMouseClicked(logo);
         }
@@ -187,8 +213,14 @@ public class Controller1 implements Initializable {
         scaleTransition.setToY(1.15);
         scaleTransition.setFromX(1.15);
         scaleTransition.setFromY(1.15);
-        scaleTransition.setToX(1.1);
-        scaleTransition.setToY(1.1);
+        if (label == total) {
+            scaleTransition.setToX(0.95);
+            scaleTransition.setToY(1.0);
+        }
+        else {
+            scaleTransition.setToX(1.1);
+            scaleTransition.setToY(1.1);
+        }
         if (label == logo) {
             scaleTransition.setFromX(1.1);
             scaleTransition.setFromY(1.1);
@@ -197,5 +229,10 @@ public class Controller1 implements Initializable {
         }
         scaleTransition.setNode(label);
         scaleTransition.play();
+    }
+
+    private static void showSettings() {
+
+
     }
 }

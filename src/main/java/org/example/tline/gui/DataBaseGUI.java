@@ -9,21 +9,21 @@ import java.util.*;
 
 public class DataBaseGUI {
 
-    private Label label;
+    private String dbPath;
     private List<File> databases = Arrays.stream(Objects.requireNonNull(new File(
             "resources/databases").listFiles())).toList();
     private ArrayList<String[]> usageData;
     private BarChart<String, Number> barChart;
 
-    public DataBaseGUI(Label label) {
-        this.label = label;
+    public DataBaseGUI(String dbRelativePath) {
+        dbPath = dbRelativePath;
     }
 
     void connectToDB() {
 
         // Get the chosen database
         File currentDatabase = databases.get(databases.indexOf(
-                new File("resources\\databases\\time-data-" + label.getText()
+                new File("resources\\databases\\time-data-" + dbPath
                         + ".db")));
 
         // Connect to the chosen database
