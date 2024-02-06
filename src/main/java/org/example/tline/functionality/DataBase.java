@@ -63,9 +63,6 @@ public class DataBase {
         String formatName = formatResults[0];
         exeName = formatResults[1];
         // get time from the last minute
-        System.out.println(exeName);
-        System.out.println(usageData);
-        System.out.println("-------------");
         int timeFromMap = Integer.parseInt(usageData.get(exeName)[0]);
 
         try (Statement statement = connection.createStatement()) {

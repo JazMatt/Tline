@@ -57,7 +57,7 @@ public class StartTracking implements Runnable {
             }
 
             // Upload dataUsage to database every minute
-            if (secs1 >= 10) {
+            if (secs1 >= 60) {
                 TreeMap<String, String[]> usageDataCopy = new TreeMap<>(usageData);
                 dataBase.uploadDataToDB(usageDataCopy);
                 usageData = new TreeMap<>();

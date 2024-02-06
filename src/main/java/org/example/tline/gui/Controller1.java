@@ -14,6 +14,8 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
@@ -46,6 +48,8 @@ public class Controller1 implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        getSettings();
 
         datesAL = new ArrayList<>();
         labels.add(total);
@@ -119,7 +123,9 @@ public class Controller1 implements Initializable {
             return;
         }
 
-        customLabel.setText(label.getText() + " - Screen Time");
+        String text = label == total ? "Total Screen Time" : label.getText() + " - Screen Time";
+        customLabel.setText(text);
+
 
         if (true) {
 
@@ -232,8 +238,16 @@ public class Controller1 implements Initializable {
         scaleTransition.play();
     }
 
-    private static void showSettings() {
+    private void showSettings() {
 
+        chartVbox.getChildren().clear();
+        chartVbox.getChildren().add(customLabel);
+        customLabel.setText("Settings will be here");
+
+
+    }
+
+    private void getSettings() {
 
     }
 }
