@@ -10,17 +10,21 @@ import java.util.TreeMap;
 public class DataBase {
 
     private TreeMap<String, String[]> usageData; // <exe_name, [usage_time, format_name]
+    private TreeMap<String, String[]> usageDataTotal; // usageData for total-time database
     private final String dbPath; // database path
+    private String dbPathTotal; // database with all-time statistics
 
     public DataBase() {
 
         String localDate = LocalDate.now().toString();
         dbPath = "jdbc:sqlite:resources\\databases\\time-data-" + localDate + ".db";
+        dbPathTotal = "jdbc:sqlite:resources\\databases\\other-databases\\total-time.db";
 
-        createTableIfNeeded();
+        createTableIfNeeded(dbPath);
+        createTableIfNeeded(dbPathTotal);
     }
 
-    private void createTableIfNeeded() {
+    private static void createTableIfNeeded(String dbPath) {
         try (Connection connection = DriverManager.getConnection(dbPath);
             Statement statement = connection.createStatement()) {
             statement.execute(
@@ -36,8 +40,16 @@ public class DataBase {
     public void uploadDataToDB(TreeMap<String, String[]> map) {
         // Make copy of received tree map
         usageData = new TreeMap<>(map);
+        usageDataTotal = new TreeMap<>(map);
         try (Connection connection = DriverManager.getConnection(dbPath)) {
             // Iterate through exeName from usageData
+            for (var exeName : map.keySet()) {
+                updateOrInsertRecord(connection, exeName);
+            }
+        } catch (SQLException ignore) {}
+
+        try (Connection connection = DriverManager.getConnection(dbPathTotal)) {
+            // Update total-time database
             for (var exeName : map.keySet()) {
                 updateOrInsertRecord(connection, exeName);
             }
@@ -51,6 +63,9 @@ public class DataBase {
         String formatName = formatResults[0];
         exeName = formatResults[1];
         // get time from the last minute
+        System.out.println(exeName);
+        System.out.println(usageData);
+        System.out.println("-------------");
         int timeFromMap = Integer.parseInt(usageData.get(exeName)[0]);
 
         try (Statement statement = connection.createStatement()) {
@@ -87,9 +102,14 @@ public class DataBase {
         if (systemNames.contains(name) || name.isBlank() || name.isEmpty()) {
 
             String[] removedValues = usageData.remove(name);
-            formatName = "System And Others";
-            name = "others";
-            usageData.put(name, new String[]{removedValues[0], formatName});
+            if (removedValues == null) {
+                removedValues = usageDataTotal.remove(name);
+                usageDataTotal.put("others", new String[]{removedValues[0], "System And Others"});
+                name = "others";
+            } else {
+                usageData.put("others", new String[]{removedValues[0], "System And Others"});
+                name = "others";
+            }
 
         } else {
             // Remove ".exe"

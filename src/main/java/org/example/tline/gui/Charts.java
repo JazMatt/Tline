@@ -120,15 +120,17 @@ public class Charts {
 
     void showSummaryLabel(VBox vbox) {
 
-        // format total time
+        // Format total time
         int hours = totalTime / 3600;
-        int minutes = totalTime % 60;
+        int remainingSeconds = totalTime % 3600;
+        int minutes = remainingSeconds / 60;
+
         Label summaryLabel = new Label();
 
         if (hours == 0) {
-            summaryLabel.setText("Total Time: " + minutes+"min");
+            summaryLabel.setText("Total Time: " + minutes + "min");
         } else {
-            summaryLabel.setText("Total Time: " + hours+"h" + minutes+"min");
+            summaryLabel.setText("Total Time: " + hours + "h " + minutes + "min");
         }
         summaryLabel.getStyleClass().add("summaryLabel");
         vbox.getChildren().add(summaryLabel);

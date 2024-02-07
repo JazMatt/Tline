@@ -121,14 +121,15 @@ public class Controller1 implements Initializable {
 
         customLabel.setText(label.getText() + " - Screen Time");
 
-        if (label != total) {
+        if (true) {
 
             String dbPath = switch(label.getText().toLowerCase()) {
-                case "total" -> "other-databases\\total-time.db"
-            }
+                case "total" -> "other-databases\\total-time.db";
+                default -> "time-data-" + label.getText() + ".db";
+            };
 
             // get data for chosen database
-            DataBaseGUI database = new DataBaseGUI(label);
+            DataBaseGUI database = new DataBaseGUI(dbPath);
             database.connectToDB();
 
             // array list sorted by usage_time descending

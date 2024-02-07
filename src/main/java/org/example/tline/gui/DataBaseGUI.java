@@ -10,8 +10,6 @@ import java.util.*;
 public class DataBaseGUI {
 
     private String dbPath;
-    private List<File> databases = Arrays.stream(Objects.requireNonNull(new File(
-            "resources/databases").listFiles())).toList();
     private ArrayList<String[]> usageData;
     private BarChart<String, Number> barChart;
 
@@ -22,14 +20,12 @@ public class DataBaseGUI {
     void connectToDB() {
 
         // Get the chosen database
-        File currentDatabase = databases.get(databases.indexOf(
-                new File("resources\\databases\\time-data-" + dbPath
-                        + ".db")));
+        File currentDatabase = new File("resources\\databases\\" + dbPath);
 
         // Connect to the chosen database
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + currentDatabase.toString())) {
-            Statement statement = connection.createStatement();
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + currentDatabase)) {
             // Get all records from the chosen database
+            Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery("SELECT * FROM apps_time");
             usageData = getResultsList(results);
 
