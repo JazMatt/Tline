@@ -9,7 +9,7 @@
 }
 
 /* Common styles for labels */
-.dateLabel, .dateClicked, .totalLabel, .settingsLabel, .choiceLabel {
+.dateLabel, .dateClicked, .totalLabel, .settingsLabel, .choiceLabel, .saveLabel {
     -fx-font-family: "Roboto Condensed Thin";
     -fx-text-fill: white;
     -fx-font-size: 13px;
@@ -263,5 +263,13 @@
 
 .color-picker .color-display {
     -fx-radius: 50%; /* Set background radius to 50% to make it a circle */
+}
+
+.saveLabel {
+    -fx-padding: 0 20px;
+    -fx-border-radius: 15px;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-font-size: 16px;
 }
 

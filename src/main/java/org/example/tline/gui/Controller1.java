@@ -49,12 +49,14 @@ public class Controller1 implements Initializable {
     private ScaleTransition scaleTransition; // animation
     private ArrayList<Label> labels = new ArrayList<>();
     // Array list for labels. Required to delete 'dateClicked' style when another label is clicked
+    private Label saveLabel; // 'Save' button in settings
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         getSettings();
 
+        saveLabel = new Label();
         datesAL = new ArrayList<>();
         labels.add(total);
         labels.add(settingsLabel);
@@ -80,6 +82,10 @@ public class Controller1 implements Initializable {
     }
 
     private void onMouseEntered(Label label) {
+        if (label == saveLabel) {
+            label.setStyle("-fx-font-size: 17px;");
+            return;
+        }
         if (!label.getStyleClass().toString().contains("dateClicked")) {
             label.getStyleClass().add("dateHovered");
             if (label != settingsLabel) return;
@@ -88,11 +94,21 @@ public class Controller1 implements Initializable {
     }
 
     private void onMouseExited(Label label) {
+        if (label == saveLabel) {
+            label.setStyle("-fx-font-size: 16px;");
+            return;
+        }
         label.getStyleClass().remove("dateHovered");
         settingsLabel.setStyle("-fx-font-size: 18px");
     }
 
     private void onMouseClicked(Label label) {
+
+        if (label == saveLabel) {
+            popAnimation(label);
+            onMouseClicked(total);
+            return;
+        }
 
         // remove the 'dateClicked' style from all labels (works better than saving previously clicked
         // label in private field and removing style from it).
@@ -105,6 +121,10 @@ public class Controller1 implements Initializable {
         }
 
         if (label != logo) {
+            // clear current screen
+            chartVbox.getChildren().clear();
+            chartVbox.getChildren().add(customLabel);
+
             // add style to clicked label
             label.getStyleClass().remove("dateLabel");
             label.getStyleClass().remove("dateHovered");
@@ -130,53 +150,51 @@ public class Controller1 implements Initializable {
         String text = label == total ? "Total Screen Time" : label.getText() + " - Screen Time";
         customLabel.setText(text);
 
+        String dbPath = switch(label.getText().toLowerCase()) {
+            case "total" -> "other-databases\\total-time.db";
+            default -> "time-data-" + label.getText() + ".db";
+        };
 
-        if (true) {
+        // get data for chosen database
+        DataBaseGUI database = new DataBaseGUI(dbPath);
+        database.connectToDB();
 
-            String dbPath = switch(label.getText().toLowerCase()) {
-                case "total" -> "other-databases\\total-time.db";
-                default -> "time-data-" + label.getText() + ".db";
-            };
+        // array list sorted by usage_time descending
+        // [exe_name, format_name, usage_time]
+        var usageData = database.getUsageData();
 
-            // get data for chosen database
-            DataBaseGUI database = new DataBaseGUI(dbPath);
-            database.connectToDB();
+        // remove the previous chart
+        if (barChart != null) {
+            chartVbox.getChildren().clear();
 
-            // array list sorted by usage_time descending
-            // [exe_name, format_name, usage_time]
-            var usageData = database.getUsageData();
-
-            // remove the previous chart
-            if (barChart != null) {
-                chartVbox.getChildren().clear();
-
-                // add the title
-                chartVbox.getChildren().add(customLabel);
-            }
-
-
-            // setup new barChart
-            Charts charts = new Charts();
-            charts.createChart(usageData);
-            barChart = charts.getBarChart();
-            xAxis = charts.getxAxis();
-            yAxis = charts.getyAxis();
-            chartVbox.getChildren().add(barChart);
-            Charts.setupChart(barChart, xAxis, yAxis);
-
-            // show label with additional statistics
-            charts.showSummaryLabel(chartVbox);
+            // add the title
+            chartVbox.getChildren().add(customLabel);
         }
+
+
+        // setup new barChart
+        Charts charts = new Charts();
+        charts.createChart(usageData);
+        barChart = charts.getBarChart();
+        xAxis = charts.getxAxis();
+        yAxis = charts.getyAxis();
+        chartVbox.getChildren().add(barChart);
+        Charts.setupChart(barChart, xAxis, yAxis);
+
+        // show label with additional statistics
+        charts.showSummaryLabel(chartVbox);
     }
 
 
-    // Methods for 'total', 'logo' and 'settings' labels only
+    // Methods for 'total', 'logo', 'settings' and 'save' labels only
     public void onMouseEntered(MouseEvent mouseEvent) {
 
         if (mouseEvent.getSource().toString().contains("Total")) {
             onMouseEntered(total);
         } else if (mouseEvent.getSource().toString().contains("⚙")) {
             onMouseEntered(settingsLabel);
+        } else if (mouseEvent.getSource().toString().contains("Save")) {
+            onMouseEntered(saveLabel);
         } else {
             logo.getStyleClass().add("logoHovered");
         }
@@ -187,6 +205,8 @@ public class Controller1 implements Initializable {
             onMouseExited(total);
         } else if (mouseEvent.getSource().toString().contains("⚙")) {
             onMouseExited(settingsLabel);
+        } else if (mouseEvent.getSource().toString().contains("Save")) {
+            onMouseExited(saveLabel);
         } else {
             logo.getStyleClass().remove("logoHovered");
         }
@@ -196,6 +216,8 @@ public class Controller1 implements Initializable {
             onMouseClicked(total);
         } else if (mouseEvent.getSource().toString().contains("⚙")) {
             onMouseClicked(settingsLabel);
+        } else if (mouseEvent.getSource().toString().contains("Save")) {
+            onMouseClicked(saveLabel);
         } else {
             onMouseClicked(logo);
         }
@@ -232,7 +254,7 @@ public class Controller1 implements Initializable {
             scaleTransition.setToX(1.1);    // For all date labels
             scaleTransition.setToY(1.1);
         }
-        if (label == logo) {
+        if (label == logo || label == saveLabel) {
             scaleTransition.setFromX(1.1);  // If logo was clicked, reset it to normal size after animation
             scaleTransition.setFromY(1.1);
             scaleTransition.setToX(1.0);
@@ -250,6 +272,7 @@ public class Controller1 implements Initializable {
         showChoiceBox();
         showNameChangePanel();
         showColorChangePanel();
+        showButton();
     }
 
     private void getSettings() {
@@ -335,10 +358,21 @@ public class Controller1 implements Initializable {
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.TOP_CENTER);
-        hBox.setPadding(new Insets(-15, 0, 0, 0));
+        hBox.setPadding(new Insets(-15, 0, 50, 0));
         hBox.getChildren().addAll(label, colorPicker);
         chartVbox.getChildren().add(hBox);
 
+    }
+
+    private void showButton() {
+
+        saveLabel.setText("Save");
+        saveLabel.getStyleClass().add("saveLabel");
+        saveLabel.setOnMouseEntered(this::onMouseEntered);
+        saveLabel.setOnMouseExited(this::onMouseExited);
+        saveLabel.setOnMouseClicked(this::onMouseClicked);
+
+        chartVbox.getChildren().add(saveLabel);
     }
 
 }
