@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 public class DataBase {
 
-    private TreeMap<String, String[]> usageData; // <exe_name, [usage_time, format_name]
+    private TreeMap<String, String[]> usageData; // <exe_name, [usage_time, format_name]>
     private TreeMap<String, String[]> usageDataTotal; // usageData for total-time database
     private final String dbPath; // database path
     private String dbPathTotal; // database with all-time statistics
@@ -83,6 +83,8 @@ public class DataBase {
                         "('" + exeName + "', '" + formatName + "', " + totalTime + ")");
             }
         }
+
+        updateSettings(exeName, formatName);
     }
 
     private String[] format(String name) {
@@ -90,23 +92,23 @@ public class DataBase {
         // weird names (settings, start, taskbar, etc)
         ArrayList<String> systemNames = new ArrayList<>(List.of(
                 "explorer.exe", "searchapp.exe", "shellexperiencehost.exe",
-                "startmenuexperiencehost.exe, applicationframehost.exe",
-                "applicationframehost.exe"));
+                "startmenuexperiencehost.exe", "applicationframehost.exe",
+                "applicationframehost.exe", "screenclippinghost.exe"));
 
         String formatName = name;
 
         // Detect weird names
         if (systemNames.contains(name) || name.isBlank() || name.isEmpty()) {
-
+;
             String[] removedValues = usageData.remove(name);
             if (removedValues == null) {
                 removedValues = usageDataTotal.remove(name);
                 usageDataTotal.put("others", new String[]{removedValues[0], "System And Others"});
-                name = "others";
             } else {
                 usageData.put("others", new String[]{removedValues[0], "System And Others"});
-                name = "others";
             }
+            name = "others";
+            formatName = "System And Others";
 
         } else {
             // Remove ".exe"
@@ -121,9 +123,29 @@ public class DataBase {
                 char firstChar = Character.toUpperCase(e.charAt(0));
                 capitalized = capitalized.concat(firstChar + e.substring(1) + " ");
             }
-            formatName = capitalized;
+            formatName = capitalized.trim();
         }
 
-        return new String[] {formatName, name}; // {format_name, exe_name}
+        return new String[] {formatName.trim(), name}; // {format_name, exe_name}
+    }
+
+    private void updateSettings(String exeName, String formatName) {
+
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
+
+            Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS settings" +
+                    "(exe_name TEXT," +
+                    "format_name TEXT," +
+                    "color TEXT);");
+
+            ResultSet result = statement.executeQuery("SELECT * FROM settings WHERE exe_name = '" + exeName + "';");
+            if (result.next()) return;
+            statement.execute("INSERT INTO settings (exe_name, format_name, color) VALUES " +
+                    "('" + exeName + "', '" + formatName + "', '" + null + "')");
+
+
+        } catch (SQLException ignore) {}
     }
 }

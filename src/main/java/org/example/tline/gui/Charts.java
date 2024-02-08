@@ -15,10 +15,7 @@ import javafx.scene.control.Label;
 
 import java.awt.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Charts {
 
@@ -65,16 +62,18 @@ public class Charts {
             newBar.nodeProperty().addListener((observable, oldNode, newNode) -> {
                 if (newNode != null) {
                     String colorHEX = "#FFCD00";
-                    if (colorsSettings.keySet().contains(array[1])) {
-                        colorHEX = colorsSettings.get(array[1]);
+                    if (colorsSettings.keySet().contains(revArray[1])) {
+                        String color = colorsSettings.get(revArray[1]);
+                        colorHEX = color.trim().equals("null") ? colorHEX : color;
                     }
+                    System.out.println(colorHEX);
                     ((Region) newNode).getStyleClass().add("bar");
                     ((Region) newNode).setStyle("-fx-bar-fill: " + colorHEX);
                 }
             });
 
             // sum time from all apps
-            totalTime += Integer.parseInt(array[2]);
+            totalTime += Integer.parseInt(revArray[2]);
 
             dataSeries.getData().add(newBar);
 
@@ -110,7 +109,7 @@ public class Charts {
             // add all records to colorSettings
             while (results.next()) {
                 colorSettings.put(
-                        results.getString(1), results.getString(2));
+                        results.getString(2), results.getString(3));
             }
 
         } catch (SQLException ignore) {}

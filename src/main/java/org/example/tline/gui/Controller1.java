@@ -54,8 +54,6 @@ public class Controller1 implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        getSettings();
-
         saveLabel = new Label();
         datesAL = new ArrayList<>();
         labels.add(total);
@@ -275,10 +273,6 @@ public class Controller1 implements Initializable {
         showButton();
     }
 
-    private void getSettings() {
-
-    }
-
     private void showChoiceBox() {
 
         // Change title
@@ -288,8 +282,8 @@ public class Controller1 implements Initializable {
         chartVbox.getChildren().add(settingsTitle);
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         // List of all program's name detected by screen time tracker
-        ObservableList<String> namesList = FXCollections.observableList(List.of("Idea", "Paint",
-                "Very long text over here. Try to choose me"));
+        ArrayList<String> names = DataBaseSettings.getSettings();
+        ObservableList<String> namesList = FXCollections.observableList(names);
         choiceBox.setItems(namesList);
 
         // New HBox ('Program's name' and ChoiceBox)
