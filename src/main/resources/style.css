@@ -169,7 +169,7 @@
     -fx-opacity: 0.5;
 }
 
-.customLabel {
+.customLabel, .settingsTitle {
     -fx-font-family: "Gill Sans", "Gill Sans MT", "Arial", "sans-serif";
     -fx-font-size: 24px;
     -fx-text-fill: white;
@@ -218,7 +218,10 @@
 }
 
 /* Focused item background color in the list */
-.choice-box .menu-item:focused {-fx-background-color: white;}
+.choice-box .menu-item:focused {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+}
 /* Text color of non-focused items in the list */
 .choice-box .label {
     -fx-text-fill: white;
@@ -227,4 +230,38 @@
 /* Text color of focused item in the list */
 .choice-box .menu-item:focused > .label {-fx-text-fill: black;}
 
+
+.nameInput {
+    -fx-font-size: 15px;
+    -fx-background-radius: 15px;
+    -fx-pref-width: 150px;
+    -fx-background-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+    -fx-border-radius: 15px;
+    -fx-text-fill: white;
+    -fx-mark-color: white;
+    -fx-padding: -1px 10px 0 10px;
+}
+
+.settingsTitle {
+    -fx-padding: 35px, 0 0 0;
+}
+
+.color-picker {
+    -fx-background-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-radius: 7px;
+    -fx-border-color: white;
+    -fx-color-label-visible: false;
+    -fx-padding: 1.3px -20px 1px -2px;
+}
+
+.color-picker .arrow-button  {
+    -fx-opacity: 0.0;
+}
+
+.color-picker .color-display {
+    -fx-radius: 50%; /* Set background radius to 50% to make it a circle */
+}
 

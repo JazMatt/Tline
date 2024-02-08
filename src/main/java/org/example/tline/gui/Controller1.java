@@ -12,9 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
@@ -248,9 +246,23 @@ public class Controller1 implements Initializable {
 
         // Remove old elements from screen
         chartVbox.getChildren().clear();
+
+        showChoiceBox();
+        showNameChangePanel();
+        showColorChangePanel();
+    }
+
+    private void getSettings() {
+
+    }
+
+    private void showChoiceBox() {
+
         // Change title
-        customLabel.setText("Settings");
-        chartVbox.getChildren().add(customLabel);
+        Label settingsTitle = new Label();
+        settingsTitle.setText("Settings");
+        settingsTitle.getStyleClass().add("settingsTitle");
+        chartVbox.getChildren().add(settingsTitle);
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         // List of all program's name detected by screen time tracker
         ObservableList<String> namesList = FXCollections.observableList(List.of("Idea", "Paint",
@@ -263,15 +275,9 @@ public class Controller1 implements Initializable {
         // Adjust the size of ChoiceBox if selected option's width is greater than prefWidth
         choiceBox.setOnAction(event -> {
             String choice = choiceBox.getValue();
-            System.out.println(choice.length());
             choiceBox.setMinWidth(choice.length() * 7.6);
         });
         chartVbox.getChildren().add(hBox);
-
-    }
-
-    private void getSettings() {
-
     }
 
     private static HBox setupBoxAndLabel(ChoiceBox<String> choiceBox) {
@@ -283,9 +289,56 @@ public class Controller1 implements Initializable {
 
         hBox.getChildren().add(label);
         hBox.getChildren().add(choiceBox);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setPadding(new Insets(30));
+        hBox.setAlignment(Pos.TOP_CENTER);
+        hBox.setPadding(new Insets(-15, 0, 0, 0));
         return hBox;
+    }
+
+
+    private void showNameChangePanel() {
+
+        // Title label 2
+        Label changeNameLabel = new Label();
+        changeNameLabel.setText("Change Displayed Name");
+        changeNameLabel.getStyleClass().add("settingsTitle");
+        chartVbox.setAlignment(Pos.TOP_CENTER);
+        chartVbox.getChildren().add(changeNameLabel);
+
+        Label label = new Label();
+        label.setText("New name ");
+        label.getStyleClass().add("choiceLabel");
+
+        TextField nameInput = new TextField();
+        nameInput.getStyleClass().add("nameInput");
+
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.TOP_CENTER);
+        hBox.setPadding(new Insets(-15, 0, 0, 0));
+        hBox.getChildren().addAll(label, nameInput);
+        chartVbox.getChildren().add(hBox);
+
+    }
+
+    private void showColorChangePanel() {
+
+        // Title label 2
+        Label changeColorLabel = new Label();
+        changeColorLabel.setText("Change Color On Chart");
+        changeColorLabel.getStyleClass().add("settingsTitle");
+        chartVbox.getChildren().add(changeColorLabel);
+
+        Label label = new Label();
+        label.setText("New color ");
+        label.getStyleClass().add("choiceLabel");
+
+        ColorPicker colorPicker = new ColorPicker();
+
+        HBox hBox = new HBox();
+        hBox.setAlignment(Pos.TOP_CENTER);
+        hBox.setPadding(new Insets(-15, 0, 0, 0));
+        hBox.getChildren().addAll(label, colorPicker);
+        chartVbox.getChildren().add(hBox);
+
     }
 
 }
