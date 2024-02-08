@@ -1,21 +1,27 @@
 package org.example.tline.gui;
 
 import javafx.animation.ScaleTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.*;
 
 import javafx.scene.input.MouseEvent;
@@ -221,15 +227,15 @@ public class Controller1 implements Initializable {
         scaleTransition.setFromX(1.15);
         scaleTransition.setFromY(1.15);
         if (label == total) {
-            scaleTransition.setToX(0.95);
+            scaleTransition.setToX(0.95);   // Specific for 'total' label
             scaleTransition.setToY(1.0);
         }
         else {
-            scaleTransition.setToX(1.1);
+            scaleTransition.setToX(1.1);    // For all date labels
             scaleTransition.setToY(1.1);
         }
         if (label == logo) {
-            scaleTransition.setFromX(1.1);
+            scaleTransition.setFromX(1.1);  // If logo was clicked, reset it to normal size after animation
             scaleTransition.setFromY(1.1);
             scaleTransition.setToX(1.0);
             scaleTransition.setToY(1.0);
@@ -240,14 +246,46 @@ public class Controller1 implements Initializable {
 
     private void showSettings() {
 
+        // Remove old elements from screen
         chartVbox.getChildren().clear();
+        // Change title
+        customLabel.setText("Settings");
         chartVbox.getChildren().add(customLabel);
-        customLabel.setText("Settings will be here");
+        ChoiceBox<String> choiceBox = new ChoiceBox<>();
+        // List of all program's name detected by screen time tracker
+        ObservableList<String> namesList = FXCollections.observableList(List.of("Idea", "Paint",
+                "Very long text over here. Try to choose me"));
+        choiceBox.setItems(namesList);
 
+        // New HBox ('Program's name' and ChoiceBox)
+        HBox hBox = setupBoxAndLabel(choiceBox);
+
+        // Adjust the size of ChoiceBox if selected option's width is greater than prefWidth
+        choiceBox.setOnAction(event -> {
+            String choice = choiceBox.getValue();
+            System.out.println(choice.length());
+            choiceBox.setMinWidth(choice.length() * 7.6);
+        });
+        chartVbox.getChildren().add(hBox);
 
     }
 
     private void getSettings() {
 
     }
+
+    private static HBox setupBoxAndLabel(ChoiceBox<String> choiceBox) {
+
+        HBox hBox = new HBox();
+        Label label = new Label();
+        label.setText("Program's name ");
+        label.getStyleClass().add("choiceLabel");
+
+        hBox.getChildren().add(label);
+        hBox.getChildren().add(choiceBox);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setPadding(new Insets(30));
+        return hBox;
+    }
+
 }

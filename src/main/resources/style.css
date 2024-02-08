@@ -9,7 +9,7 @@
 }
 
 /* Common styles for labels */
-.dateLabel, .dateClicked, .totalLabel, .settingsLabel{
+.dateLabel, .dateClicked, .totalLabel, .settingsLabel, .choiceLabel {
     -fx-font-family: "Roboto Condensed Thin";
     -fx-text-fill: white;
     -fx-font-size: 13px;
@@ -192,4 +192,39 @@
     -fx-font-size: 24px;
 
 }
+
+.choiceLabel {
+    -fx-font-weight: normal;
+    -fx-padding: 0 5px;
+    -fx-font-size: 16px;
+}
+
+.choice-box {
+    -fx-background-radius: 15px;
+    -fx-pref-width: 150px;
+    -fx-background-color: transparent;
+    -fx-border-width: 1px;
+    -fx-border-color: white;
+    -fx-border-radius: 15px;
+    -fx-padding: -5px 0;
+    -fx-text-fill: white;
+    -fx-mark-color: white;
+}
+
+.choice-box .context-menu {
+    -fx-background-radius: 10px;
+    -fx-background-color: #252525;
+    -fx-text-fill: white;
+}
+
+/* Focused item background color in the list */
+.choice-box .menu-item:focused {-fx-background-color: white;}
+/* Text color of non-focused items in the list */
+.choice-box .label {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+}
+/* Text color of focused item in the list */
+.choice-box .menu-item:focused > .label {-fx-text-fill: black;}
+
 
