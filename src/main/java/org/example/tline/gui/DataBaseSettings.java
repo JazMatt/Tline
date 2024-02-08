@@ -6,23 +6,20 @@ import java.util.List;
 
 public class DataBaseSettings {
 
-    public static ArrayList<String> getSettings() {
+    public static int saveSettings(String oldName, String newName, String colorHEX) {
 
-        // Connect to database with colors settings
+        System.out.printf("%20s%20s%20s", oldName, newName, colorHEX);
         try (Connection connection = DriverManager.getConnection(
-                "jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
-
-            ArrayList<String> names = new ArrayList<>();
+                "\"jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
 
             Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM settings");
-            while (results.next()) {
-                names.add(results.getString(2));
-            }
-            return names;
+            ResultSet results = statement.executeQuery(
+                    "SELECT * FROM settings WHERE format_name = '" + newName + "'");
 
+            if (results.next()) return -1;
+            statement.execute("UPDATE settings SET color='" + colorHEX + "', format_name = '" +
+                            newName + "' WHERE format_name = '" + oldName + "'");
         } catch (SQLException ignore) {}
-
-        return new ArrayList<>(List.of(""));
+        return 1;
     }
 }

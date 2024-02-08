@@ -50,23 +50,23 @@ public class Charts {
         ArrayList<String[]> reversedData = new ArrayList<>(usageData);
         Collections.reverse(reversedData); // Reversed array list for setting colors to bars
 
-        TreeMap<String, String> colorsSettings = getColorSettings();
+        TreeMap<String, String[]> colorsSettings = getColorSettings();
         // Add all record to series
         for (int i = 0; i < usageData.size(); i++) {
 
-            String[] array = usageData.get(i); // [exe_name, format_name, usage_time]
-            String[] revArray = reversedData.get(i); // [usage_time, format_name, exe_name]
+            String[] revArray = reversedData.get(i); // [exe_name, format_name, usage_time]
 
             // Create new bar and add proper color to it
-            var newBar = new XYChart.Data(Integer.parseInt(revArray[2])/3600d, revArray[1]);
+            var newBar = new XYChart.Data(
+                    Integer.parseInt(revArray[2])/3600d,
+                    colorsSettings.get(revArray[0])[0]);
             newBar.nodeProperty().addListener((observable, oldNode, newNode) -> {
                 if (newNode != null) {
                     String colorHEX = "#FFCD00";
-                    if (colorsSettings.keySet().contains(revArray[1])) {
-                        String color = colorsSettings.get(revArray[1]);
+                    if (colorsSettings.containsKey(revArray[0])) {
+                        String color = colorsSettings.get(revArray[0])[1];
                         colorHEX = color.trim().equals("null") ? colorHEX : color;
                     }
-                    System.out.println(colorHEX);
                     ((Region) newNode).getStyleClass().add("bar");
                     ((Region) newNode).setStyle("-fx-bar-fill: " + colorHEX);
                 }
@@ -97,9 +97,9 @@ public class Charts {
         xAxis.setTickLabelFill(Paint.valueOf("white"));
     }
 
-    private static TreeMap<String, String> getColorSettings() {
+    private static TreeMap<String, String[]> getColorSettings() {
 
-        TreeMap<String, String> colorSettings = new TreeMap<>(); // <format_name, color>
+        TreeMap<String, String[]> colorSettings = new TreeMap<>(); // <exe_name, [format_name, color]>
 
         try (Connection connection = DriverManager.getConnection(
                 "jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
@@ -109,7 +109,9 @@ public class Charts {
             // add all records to colorSettings
             while (results.next()) {
                 colorSettings.put(
-                        results.getString(2), results.getString(3));
+                        // <exe_name, [format_name, color]>
+                        results.getString(1),
+                        new String[]{results.getString(2), results.getString(3)});
             }
 
         } catch (SQLException ignore) {}

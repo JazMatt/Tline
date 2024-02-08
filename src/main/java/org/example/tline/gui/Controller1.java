@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -50,6 +51,10 @@ public class Controller1 implements Initializable {
     private ArrayList<Label> labels = new ArrayList<>();
     // Array list for labels. Required to delete 'dateClicked' style when another label is clicked
     private Label saveLabel; // 'Save' button in settings
+    private ArrayList<String[]> usageData = new ArrayList<>(); // sorted by usage_time
+    private ChoiceBox oldName;
+    private TextField newName;
+    private ColorPicker colorPicker;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -105,6 +110,14 @@ public class Controller1 implements Initializable {
         if (label == saveLabel) {
             popAnimation(label);
             onMouseClicked(total);
+            int result = DataBaseSettings.saveSettings(oldName.getValue().toString(),
+                    newName.getText(), toRGBCode(colorPicker.getValue()));
+            if (result == -1) {
+                System.out.println("Error window here");
+            }
+            if (result == -2) {
+                System.out.println("not found");
+            }
             return;
         }
 
@@ -159,7 +172,7 @@ public class Controller1 implements Initializable {
 
         // array list sorted by usage_time descending
         // [exe_name, format_name, usage_time]
-        var usageData = database.getUsageData();
+        usageData = database.getUsageData();
 
         // remove the previous chart
         if (barChart != null) {
@@ -282,7 +295,8 @@ public class Controller1 implements Initializable {
         chartVbox.getChildren().add(settingsTitle);
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         // List of all program's name detected by screen time tracker
-        ArrayList<String> names = DataBaseSettings.getSettings();
+        ArrayList<String> names = new ArrayList<>();
+        usageData.forEach(array -> names.add(array[1]));
         ObservableList<String> namesList = FXCollections.observableList(names);
         choiceBox.setItems(namesList);
 
@@ -292,8 +306,10 @@ public class Controller1 implements Initializable {
         // Adjust the size of ChoiceBox if selected option's width is greater than prefWidth
         choiceBox.setOnAction(event -> {
             String choice = choiceBox.getValue();
-            choiceBox.setMinWidth(choice.length() * 7.6);
+            choiceBox.setMinWidth(choice.length() * 8.1);
         });
+        oldName = choiceBox;
+
         chartVbox.getChildren().add(hBox);
     }
 
@@ -327,6 +343,7 @@ public class Controller1 implements Initializable {
 
         TextField nameInput = new TextField();
         nameInput.getStyleClass().add("nameInput");
+        newName = nameInput;
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.TOP_CENTER);
@@ -349,6 +366,7 @@ public class Controller1 implements Initializable {
         label.getStyleClass().add("choiceLabel");
 
         ColorPicker colorPicker = new ColorPicker();
+        this.colorPicker = colorPicker;
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.TOP_CENTER);
@@ -369,4 +387,10 @@ public class Controller1 implements Initializable {
         chartVbox.getChildren().add(saveLabel);
     }
 
+    private static String toRGBCode( Color color )  {
+        return String.format( "#%02X%02X%02X",
+                (int)( color.getRed() * 255 ),
+                (int)( color.getGreen() * 255 ),
+                (int)( color.getBlue() * 255 ) );
+    }
 }
