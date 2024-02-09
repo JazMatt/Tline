@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+
 
 import java.io.IOException;
 import java.util.Objects;
@@ -20,6 +22,7 @@ public class Stage1 extends Application {
             stage.setMinHeight(500);
             stage.setTitle("Tline");
             stage.setScene(scene);
+            stage.getIcons().add(new Image("icon.png"));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

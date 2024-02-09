@@ -62,7 +62,7 @@ public class Charts {
                     colorsSettings.get(revArray[0])[0]);
             newBar.nodeProperty().addListener((observable, oldNode, newNode) -> {
                 if (newNode != null) {
-                    String colorHEX = "#FFCD00";
+                    String colorHEX = "#FFFFFF";
                     if (colorsSettings.containsKey(revArray[0])) {
                         String color = colorsSettings.get(revArray[0])[1];
                         colorHEX = color.trim().equals("null") ? colorHEX : color;
