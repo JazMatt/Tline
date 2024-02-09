@@ -8,18 +8,21 @@ public class DataBaseSettings {
 
     public static int saveSettings(String oldName, String newName, String colorHEX) {
 
-        System.out.printf("%20s%20s%20s", oldName, newName, colorHEX);
+        if (oldName == null || newName == null) return -1;
         try (Connection connection = DriverManager.getConnection(
-                "\"jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
+                "jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
 
             Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(
-                    "SELECT * FROM settings WHERE format_name = '" + newName + "'");
+            String sql = "SELECT * FROM settings WHERE format_name = '" + newName + "'";
+            ResultSet results = statement.executeQuery(sql);
 
             if (results.next()) return -1;
-            statement.execute("UPDATE settings SET color='" + colorHEX + "', format_name = '" +
-                            newName + "' WHERE format_name = '" + oldName + "'");
-        } catch (SQLException ignore) {}
+            sql ="UPDATE settings SET color='" + colorHEX + "', format_name = '" +
+                    newName + "' WHERE format_name = '" + oldName + "'";
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return 1;
     }
 }

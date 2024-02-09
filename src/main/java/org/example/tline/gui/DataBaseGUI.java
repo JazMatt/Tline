@@ -38,12 +38,26 @@ public class DataBaseGUI {
 
     private static ArrayList<String[]> getResultsList(ResultSet results) throws SQLException {
 
+        TreeMap<String, String> namesSettings = new TreeMap<>();
+
+        // Connect to 'settings' database to get names if they were changed
+        try (Connection connection = DriverManager.getConnection(
+                "jdbc:sqlite:resources\\databases\\other-databases\\settings.db")) {
+
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT exe_name, format_name FROM settings");
+            while (result.next()) {
+                namesSettings.put(result.getString(1), result.getString(2));
+            }
+        }
+
         // ArrayList<[exe_name, format_name, time_usage]>
         ArrayList<String[]> resultsList = new ArrayList<>();
         while (results.next()) {
+            String exeName = results.getString(1);
             resultsList.add(new String[] {
-                    results.getString(1),   // exe_name
-                    results.getString(2),   // format_name
+                    exeName,   // exe_name
+                    namesSettings.get(exeName),   // format_name
                     results.getString(3)}); // time_usage
 
         }

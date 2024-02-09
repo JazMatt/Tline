@@ -109,15 +109,13 @@ public class Controller1 implements Initializable {
 
         if (label == saveLabel) {
             popAnimation(label);
-            onMouseClicked(total);
+            if (oldName.getValue() == null || newName.getText().isBlank()) return;
             int result = DataBaseSettings.saveSettings(oldName.getValue().toString(),
-                    newName.getText(), toRGBCode(colorPicker.getValue()));
+                    newName.getText().trim(), toRGBCode(colorPicker.getValue()));
             if (result == -1) {
-                System.out.println("Error window here");
+                return;
             }
-            if (result == -2) {
-                System.out.println("not found");
-            }
+            onMouseClicked(total);
             return;
         }
 
@@ -279,6 +277,14 @@ public class Controller1 implements Initializable {
 
         // Remove old elements from screen
         chartVbox.getChildren().clear();
+
+        // get data for chosen database
+        DataBaseGUI database = new DataBaseGUI("other-databases\\total-time.db");
+        database.connectToDB();
+
+        // array list sorted by usage_time descending
+        // [exe_name, format_name, usage_time]
+        usageData = database.getUsageData();
 
         showChoiceBox();
         showNameChangePanel();
